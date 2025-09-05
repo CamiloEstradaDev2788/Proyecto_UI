@@ -77,9 +77,9 @@
 <nav>
     <a href="index.jsp">Inicio</a>
     <a href="login.jsp">Iniciar Sesión</a>
-    <a href="inventario.jsp">Gestión de Inventario</a>
+    <!-- comment <a href="inventario.jsp">Gestión de Inventario</a>
     <a href="ventas.jsp">Gestión de Ventas</a>
-    <a href="reportes.jsp">Reportes</a>
+    <a href="reportes.jsp">Reportes</a>  -->
     <a href="contacto.jsp">Contacto</a>
 </nav>
 
