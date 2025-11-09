@@ -1,2 +1,7 @@
-com\bodegapp\core\database\ConexionBD.class
+com\bodegapp\empresa\model\EmpresaModel.class
+com\bodegapp\usuarios\model\Usuario.class
 com\bodegapp\core\test\TestConexion.class
+com\bodegapp\core\database\ConexionBD.class
+com\bodegapp\empresa\dao\EmpresaDAO.class
+com\bodegapp\empresa\controller\EmpresaController.class
+com\bodegapp\empresa\service\EmpresaService.class
