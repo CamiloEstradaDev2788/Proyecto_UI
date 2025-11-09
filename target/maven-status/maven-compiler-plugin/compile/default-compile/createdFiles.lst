@@ -1,2 +1,2 @@
-com\mycompany\uipreoyect\JakartaRestConfiguration.class
-com\mycompany\uipreoyect\resources\JakartaEE10Resource.class
+com\bodegapp\core\database\ConexionBD.class
+com\bodegapp\core\test\TestConexion.class

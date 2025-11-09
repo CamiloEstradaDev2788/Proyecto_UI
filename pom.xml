@@ -19,7 +19,14 @@
             <version>${jakartaee}</version>
             <scope>provided</scope>
         </dependency>
-    </dependencies>
+
+	<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-j</artifactId>
+    <version>9.4.0</version>
+</dependency>
+
+	</dependencies>
     
     <build>
         <plugins>
