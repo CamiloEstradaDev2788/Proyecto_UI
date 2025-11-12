@@ -62,10 +62,11 @@ public class EmpresaController extends HttpServlet {
     System.out.println("LOGO: " + e.getLOGO());
         
         if(service.registrarEmpresa(e)){
-            response.sendRedirect("empresaController");
+            response.sendRedirect("/Empresas/listar.jsp");
         }else{
             request.setAttribute("error", "No se pudo registrar la empresa.");
-            request.getRequestDispatcher("Empresas/registrar.jsp").forward(request, response);
+            request.getRequestDispatcher(""
+                    + "registrar.jsp").forward(request, response);
         }
     }
 
