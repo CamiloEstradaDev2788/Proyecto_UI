@@ -1,12 +1,14 @@
 com\bodegapp\rol\model\RolModel.class
 com\bodegapp\usuarios\model\UsuarioModel.class
 com\bodegapp\empresa\dao\EmpresaDAO.class
+com\bodegapp\usuarios\dao\UsuarioDAO.class
 com\bodegapp\rol\controller\RolController.class
 com\bodegapp\rol\service\RolService.class
 com\bodegapp\rol\dao\RolDAO.class
 com\bodegapp\empresa\model\EmpresaModel.class
-com\bodegapp\usuarios\model\Usuario.class
 com\bodegapp\core\test\TestConexion.class
+com\bodegapp\usuarios\controller\UsuarioController.class
 com\bodegapp\core\database\ConexionBD.class
+com\bodegapp\usuarios\service\UsuarioService.class
 com\bodegapp\empresa\controller\EmpresaController.class
 com\bodegapp\empresa\service\EmpresaService.class

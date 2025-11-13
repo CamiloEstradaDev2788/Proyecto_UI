@@ -6,7 +6,7 @@ public class UsuarioModel {
     
     private int ID_USER;
     private int ID_EMPRESA;
-    private String ID_ROL;
+    private int ID_ROL;
     private  String NOMBRE1;
     private  String NOMBRE2;
     private  String APELLIDO1;
@@ -19,7 +19,7 @@ public class UsuarioModel {
     private String TIPO_CONTRATO;
     private boolean ESTADO;
 
-    public UsuarioModel(int ID_EMPRESA, String ID_ROL, String NOMBRE1, String NOMBRE2, String APELLIDO1, String APELLIDO2, String CEDULA, String CORREO, String CONTRASENA_HASH, Date FECHA_INGRESO, double SALARIO, String TIPO_CONTRATO, boolean ESTADO) {
+    public UsuarioModel(int ID_EMPRESA, int ID_ROL, String NOMBRE1, String NOMBRE2, String APELLIDO1, String APELLIDO2, String CEDULA, String CORREO, String CONTRASENA_HASH, Date FECHA_INGRESO, double SALARIO, String TIPO_CONTRATO, boolean ESTADO) {
         this.ID_EMPRESA = ID_EMPRESA;
         this.ID_ROL = ID_ROL;
         this.NOMBRE1 = NOMBRE1;
@@ -54,11 +54,11 @@ public class UsuarioModel {
         this.ID_EMPRESA = ID_EMPRESA;
     }
 
-    public String getID_ROL() {
+    public int getID_ROL() {
         return ID_ROL;
     }
 
-    public void setID_ROL(String ID_ROL) {
+    public void setID_ROL(int ID_ROL) {
         this.ID_ROL = ID_ROL;
     }
 
