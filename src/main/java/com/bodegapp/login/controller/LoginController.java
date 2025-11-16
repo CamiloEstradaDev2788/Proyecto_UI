@@ -32,10 +32,14 @@ public class LoginController extends HttpServlet {
         if (usuario != null) {
             // Crear sesión
             HttpSession sesion = request.getSession();
+            
             sesion.setAttribute("usuario", usuario);
+            sesion.setAttribute("idEmpresa", usuario.getID_EMPRESA());
+            sesion.setAttribute("idRol", usuario.getID_ROL());
+            
 
             // Según el rol del usuario puedes redirigir al dashboard correcto
-            response.sendRedirect("dashboard.jsp");
+            response.sendRedirect("dashboard");
 
         } else {
             // Login fallido

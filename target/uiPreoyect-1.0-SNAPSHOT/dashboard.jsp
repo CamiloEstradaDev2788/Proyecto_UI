@@ -10,6 +10,7 @@
     }
 
     UsuarioModel usuario = (UsuarioModel) sesion.getAttribute("usuario");
+    int id_emprea = usuario.getID_EMPRESA();
 %>
 
 <!DOCTYPE html>
@@ -74,7 +75,6 @@
         </aside>
         <!------------------------------Fin Aside------------------------------->
         <main>
-            <h1>Dashboard</h1>
                 <div class="date">
                     <input type="date">
                 </div>
@@ -85,7 +85,7 @@
                             <div class="middle">
                                 <div class="left">
                                     <h3>Ventas Totales</h3>
-                                    <h1>$232.323</h1>
+                                    <h1>$<%= request.getAttribute("totalVentas")%></h1>
                                 </div>
                                 <div class="progress">
                                     <svg>
@@ -140,7 +140,114 @@
                     </div>
                     <!------------------Fin ingresos----------------------------->
                 </div>
+                <!---==================Fin insights==================--->
+                <!------------------Inicio productos recientes------------------------>
+                <div class="recent-products">
+                    <h2>Productos receientes</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre del Producto</th>
+                                <th>Cantidad</th>
+                                <th>Proveedor</th>
+                                <th>Precio</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cosas de limpieza</td>
+                                <td>456</td>
+                                <td>AK1</td>
+                                <td>$9.800</td>
+                            </tr>
+                            <tr>
+                                <td>Bebidas</td>
+                                <td>45</td>
+                                <td>AK1</td>
+                                <td>$9.800</td>
+                            </tr>
+                            <tr>
+                                <td>Juguetes</td>
+                                <td>467</td>
+                                <td>AK1</td>
+                                <td>$9.800</td>
+                            </tr>
+                            <tr>
+                                <td>Comida</td>
+                                <td>4234</td>
+                                <td>AK1</td>
+                                <td>$9.800</td>
+                            </tr>
+                            <tr>
+                                <td>Mascotas</td>
+                                <td>12</td>
+                                <td>AK1</td>
+                                <td>$9.800</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="#">Mostrar todo</a>
+                </div>
+                <!------------------Fin productos recientes------------------------>
         </main>
+        <!---==================Fin main==================--->
+        <!--==================Inicio right==================--->
+        <div class="right">
+            <div class="top">
+                <button id="menu-btn">
+                    <span class="material-symbols-sharp">menu</span>
+                </button>
+                <div class="theme-toggler">
+                    <span class="material-symbols-sharp active">light_mode</span>
+                    <span class="material-symbols-sharp">dark_mode</span>
+                </div>
+                <div class="profile">
+                    <div class="info">
+                        <p>Hola, <b>Usuario</b></p>
+                        <small class="text-muted">Admin</small>
+                    </div>
+                </div>
+            </div>
+        <!--==================Fin top-right==================--->
+        <div class="important-dates">
+            <h2>Fechas importantes</h2>
+            <div class="important">
+                <div class="date">
+                    <div class="image-element">
+                        <span class="material-symbols-sharp">blender</span>
+                    </div>
+                    <div class="name-element">
+                        <p><b>Leche</b> 20-11-2025</p>
+                    </div>
+                    <div class="date">
+                    <div class="image-element">
+                        <span class="material-symbols-sharp">blender</span>
+                    </div>
+                    <div class="name-element">
+                        <p><b>Leche</b> 20-11-2025</p>
+                    </div>
+                </div>
+                <div class="date">
+                    <div class="image-element">
+                        <span class="material-symbols-sharp">blender</span>
+                    </div>
+                    <div class="name-element">
+                        <p><b>Leche</b> 20-11-2025</p>
+                    </div>
+                </div>
+                <div class="date">
+                    <div class="image-element">
+                        <span class="material-symbols-sharp">blender</span>
+                    </div>
+                    <div class="name-element">
+                        <p><b>Leche</b> 20-11-2025</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        </div>
     </div>
 
 </body>
