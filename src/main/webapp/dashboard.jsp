@@ -125,7 +125,7 @@
                             <div class="middle">
                                 <div class="left">
                                     <h3>Ingresos</h3>
-                                    <h1>$232.323</h1>
+                                    <h1>$<%= request.getAttribute("gananciasTotales") %></h1>
                                 </div>
                                 <div class="progress">
                                     <svg>

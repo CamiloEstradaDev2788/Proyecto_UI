@@ -39,10 +39,14 @@ public class DashboardController extends HttpServlet {
         // Ejecutar consulta
         double totalVentas      = dashboardDAO.obtenerTotalVentas(idEmpresa);
         double gastosTotales    = dashboardDAO.obtenerGastosTotales(idEmpresa, inicio, fin);
+        double ganancias = dashboardDAO.obtenerGanancias(idEmpresa, inicio, fin);
+        
 
         // Pasar datos al JSP
         request.setAttribute("totalVentas", totalVentas);
         request.setAttribute("gastosTotales", gastosTotales);
+        request.setAttribute("gananciasTotales", ganancias);
+        
 
         // Ir al dashboard
         request.getRequestDispatcher("dashboard.jsp").forward(request, response);

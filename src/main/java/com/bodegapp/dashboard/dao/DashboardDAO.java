@@ -78,5 +78,10 @@ public class DashboardDAO {
     return 0;
 }
 
+    public double obtenerGanancias(int idEmpresa, String fechaInicio, String fechaFin) {
+    double ventas = obtenerTotalVentas(idEmpresa);
+    double gastos = obtenerGastosTotales(idEmpresa, fechaInicio, fechaFin); 
+    return ventas - gastos;
+}
     
 }
