@@ -2,25 +2,146 @@
 <%@ page import="com.bodegapp.usuarios.model.UsuarioModel" %>
 
 <%
-    HttpSession session = request.getSession(false);
-    Usuario u = (Usuario) session.getAttribute("usuario");
+    HttpSession sesion = request.getSession(false);
 
-    if (u == null) {
+    if (sesion == null || sesion.getAttribute("usuario") == null) {
         response.sendRedirect("login.jsp");
         return;
     }
+
+    UsuarioModel usuario = (UsuarioModel) sesion.getAttribute("usuario");
 %>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <title>Dashboard - BodegApp</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
+
+    <link rel="stylesheet" href="/assest/styles/styles.css">
 </head>
+    
+    
 <body>
-<h1>Bienvenido, <%= u.getNombre() %> 👋</h1>
+    
+    <div class="container">
+        <!------------------------------Inicio Aside------------------------------->
+        <aside>
+            <div class="top">
+                <div class="logo">
+                    <img src="65844.png" alt="logo">
+                </div>
+                <div class="close" id="close-btn">
+                    <span class="material-symbols-sharp">close</span>
+                </div>
+            </div>
+            <div class="sidebar">
+                <a href="#">
+                    <span class="material-symbols-sharp">dashboard</span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="#" class="active">
+                    <span class="material-symbols-sharp">inventory</span>
+                    <h3>Inventario</h3>
+                </a>
+                <a href="#">
+                    <span class="material-symbols-sharp">person</span>
+                    <h3>Personal</h3>
+                </a>
+                <a href="#">
+                    <span class="material-symbols-sharp">package_2</span>
+                    <h3>Porveedores</h3>
+                </a>
+                <a href="#">
+                    <span class="material-symbols-sharp">order_approve</span>
+                    <h3>Ventas</h3>
+                </a>
+                <a href="#">
+                    <span class="material-symbols-sharp">finance_mode</span>
+                    <h3>Analiticas</h3>
+                </a>
+                <a href="#">
+                    <span class="material-symbols-sharp">settings</span>
+                    <h3>Configuración</h3>
+                </a>
+                <a href="#">
+                    <span class="material-symbols-sharp">logout</span>
+                    <h3>Logout</h3>
+                </a>
+            </div>
+        </aside>
+        <!------------------------------Fin Aside------------------------------->
+        <main>
+            <h1>Dashboard</h1>
+                <div class="date">
+                    <input type="date">
+                </div>
+                <div class="insights">
+                    <!------------------Inicio Ventas----------------------------->
+                    <div class="sales">
+                        <span class="material-symbols-sharp">point_of_sale</span>
+                            <div class="middle">
+                                <div class="left">
+                                    <h3>Ventas Totales</h3>
+                                    <h1>$232.323</h1>
+                                </div>
+                                <div class="progress">
+                                    <svg>
+                                        <circle cx="38" cy="38" r="36"></circle>
+                                    </svg>
+                                    <div class="number">
+                                    <p>81%</p>
+                                    </div>
+                                </div>
+                            </div>
+                        <small class="text-muted">Ultimas 24 horas</small>
+                    </div>
+                    <!------------------Fin Ventas----------------------------->
+                    <!----------------Inicio gastos----------------------------->
+                    <div class="bills">
+                        <span class="material-symbols-sharp">bar_chart</span>
+                            <div class="middle">
+                                <div class="left">
+                                    <h3>Gastos Totales</h3>
+                                    <h1>$232.323</h1>
+                                </div>
+                                <div class="progress">
+                                    <svg>
+                                        <circle cx="38" cy="38" r="36"></circle>
+                                    </svg>
+                                    <div class="number">
+                                    <p>81%</p>
+                                    </div>
+                                </div>
+                            </div>
+                        <small class="text-muted">Ultimas 24 horas</small>
+                    </div>
+                    <!------------------Fin gastos----------------------------->
+                    <!------------------Inicio ingresos------------------------>
+                    <div class="income">
+                        <span class="material-symbols-sharp">attach_money</span>
+                            <div class="middle">
+                                <div class="left">
+                                    <h3>Ingresos</h3>
+                                    <h1>$232.323</h1>
+                                </div>
+                                <div class="progress">
+                                    <svg>
+                                        <circle cx="38" cy="38" r="36"></circle>
+                                    </svg>
+                                    <div class="number">
+                                    <p>81%</p>
+                                    </div>
+                                </div>
+                            </div>
+                        <small class="text-muted">Ultimas 24 horas</small>
+                    </div>
+                    <!------------------Fin ingresos----------------------------->
+                </div>
+        </main>
+    </div>
 
-<p>Tu rol: <%= u.getRol() %></p>
-
-<a href="logout">Cerrar sesión</a>
 </body>
 </html>

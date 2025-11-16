@@ -12,6 +12,7 @@ com\bodegapp\core\test\TestConexion.class
 com\bodegapp\usuarios\controller\UsuarioController.class
 com\bodegapp\core\database\ConexionBD.class
 com\bodegapp\usuarios\service\UsuarioService.class
+com\bodegapp\login\controller\LogoutController.class
 com\bodegapp\empresa\controller\EmpresaController.class
 com\bodegapp\login\controller\LoginController.class
 com\bodegapp\empresa\service\EmpresaService.class
