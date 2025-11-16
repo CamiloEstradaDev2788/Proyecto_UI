@@ -26,6 +26,9 @@ public class DashboardController extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
+        
+        String inicio = "2013-11-01";
+        String fin = "2013-12-31";
 
         // Obtener usuario desde sesión
         UsuarioModel usuario = (UsuarioModel) session.getAttribute("usuario");
@@ -34,10 +37,12 @@ public class DashboardController extends HttpServlet {
         int idEmpresa = usuario.getID_EMPRESA();
 
         // Ejecutar consulta
-        double totalVentas = dashboardDAO.obtenerTotalVentas(idEmpresa);
+        double totalVentas      = dashboardDAO.obtenerTotalVentas(idEmpresa);
+        double gastosTotales    = dashboardDAO.obtenerGastosTotales(idEmpresa, inicio, fin);
 
         // Pasar datos al JSP
         request.setAttribute("totalVentas", totalVentas);
+        request.setAttribute("gastosTotales", gastosTotales);
 
         // Ir al dashboard
         request.getRequestDispatcher("dashboard.jsp").forward(request, response);
