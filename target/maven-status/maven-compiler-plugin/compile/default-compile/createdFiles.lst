@@ -3,6 +3,7 @@ com\bodegapp\rol\model\RolModel.class
 com\bodegapp\usuarios\model\UsuarioModel.class
 com\bodegapp\empresa\dao\EmpresaDAO.class
 com\bodegapp\usuarios\dao\UsuarioDAO.class
+com\bodegapp\inventario\dto\ProductoDTO.class
 com\bodegapp\rol\controller\RolController.class
 com\bodegapp\rol\service\RolService.class
 com\bodegapp\rol\dao\RolDAO.class
@@ -12,7 +13,9 @@ com\bodegapp\dashboard\controller\DashboardController.class
 com\bodegapp\core\test\TestConexion.class
 com\bodegapp\usuarios\controller\UsuarioController.class
 com\bodegapp\core\database\ConexionBD.class
+com\bodegapp\inventario\model\ProductoModel.class
 com\bodegapp\usuarios\service\UsuarioService.class
+com\bodegapp\inventario\dao\ProductoDAO.class
 com\bodegapp\login\controller\LogoutController.class
 com\bodegapp\dashboard\dao\DashboardDAO.class
 com\bodegapp\empresa\controller\EmpresaController.class

@@ -5,9 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import com.bodegapp.core.database.ConexionBD;
+import com.bodegapp.inventario.dao.ProductoDAO;
+import com.bodegapp.inventario.dto.ProductoDTO;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DashboardDAO {
 
+    /*----------------------Insights-----------------------------------------*/
     private static final String SQL_TOTAL_VENTAS =
         "SELECT SUM(df.PRECIO_VENTA * df.CANTIDAD_VENTA) AS total_ventas " +
         "FROM empresas e " +
@@ -83,5 +88,58 @@ public class DashboardDAO {
     double gastos = obtenerGastosTotales(idEmpresa, fechaInicio, fechaFin); 
     return ventas - gastos;
 }
+    
+    /*----------------------Insights-----------------------------------------*/
+    
+    /*----------------------Tabla de productos-----------------------------------------*/
+    
+    public List<ProductoDTO> obtenerProductosRecientes(int idEmpresa) {
+
+    List<ProductoDTO> lista = new ArrayList<>();
+
+    String SQL =
+        "SELECT " +
+        "p.codigo_producto AS codigoProducto, " +
+        "p.descripcion_producto AS descripcion, " +
+        "dc.cantidad_detalle AS cantidad, " +
+        "p.precio_producto AS precio, " +
+        "p.linea_producto AS linea, " +
+        "oc.fecha_entrega AS fechaEntrega " +
+        "FROM productos p " +
+        "JOIN detalle_compra dc ON p.codigo_producto = dc.codigo_producto " +
+        "JOIN orden_compra oc ON oc.numero_orden = dc.numero_orden " +
+        "JOIN proveedores prv ON prv.codigo_proveedor = oc.codigo_proveedor " +
+        "WHERE prv.id_empresa = ? " +
+        "ORDER BY oc.fecha_entrega DESC " +
+        "LIMIT 10";
+
+    try (Connection con = ConexionBD.getConexion();
+         PreparedStatement ps = con.prepareStatement(SQL)) {
+
+        ps.setInt(1, idEmpresa);
+
+        try (ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                ProductoDTO dto = new ProductoDTO(
+                    rs.getString("codigoProducto"),
+                    rs.getString("descripcion"),
+                    rs.getInt("cantidad"),
+                    rs.getDouble("precio"),
+                    rs.getString("linea"),
+                    rs.getString("fechaEntrega")
+                );
+                lista.add(dto);
+            }
+        }
+
+    } catch (Exception e) {
+        System.out.println("❌ Error en obtenerProductosRecientes(): " + e.getMessage());
+        e.printStackTrace();
+    }
+
+    return lista;
+}
+
     
 }
