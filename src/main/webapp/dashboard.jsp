@@ -39,11 +39,11 @@
                 </div>
             </div>
             <div class="sidebar">
-                <a href="#">
+                <a href="<%= request.getContextPath() %>/dashboard.jsp" class="active">
                     <span class="material-symbols-sharp">dashboard</span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="#" class="active">
+                <a href="<%= request.getContextPath() %>/InventarioController">
                     <span class="material-symbols-sharp">inventory</span>
                     <h3>Inventario</h3>
                 </a>
