@@ -13,7 +13,7 @@ public class ConexionBD {
     */
     private static final String URL = "jdbc:mysql://localhost:3307/bodegapp_db";
     private static final String USER = "root";
-    private static final String PASSWORD = "Yefry.avila0";
+    private static final String PASSWORD = "";
     
     private static Connection conn = null;
     

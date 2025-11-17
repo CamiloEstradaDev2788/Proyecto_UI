@@ -1,6 +1,7 @@
 package com.bodegapp.dashboard.controller;
 
 import com.bodegapp.dashboard.dao.DashboardDAO;
+import com.bodegapp.inventario.dto.ProductoDTO;
 import com.bodegapp.usuarios.model.UsuarioModel;
 
 import jakarta.servlet.ServletException;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/dashboard")
 public class DashboardController extends HttpServlet {
@@ -39,13 +41,17 @@ public class DashboardController extends HttpServlet {
         // Ejecutar consulta
         double totalVentas      = dashboardDAO.obtenerTotalVentas(idEmpresa);
         double gastosTotales    = dashboardDAO.obtenerGastosTotales(idEmpresa, inicio, fin);
-        double ganancias = dashboardDAO.obtenerGanancias(idEmpresa, inicio, fin);
+        double ganancias        = dashboardDAO.obtenerGanancias(idEmpresa, inicio, fin);
+        //Tabla
+         List<ProductoDTO> productosRecientes = dashboardDAO.obtenerProductosRecientes(idEmpresa);
+         System.out.println("Tamaño de la lista "+ productosRecientes.size());
         
 
         // Pasar datos al JSP
         request.setAttribute("totalVentas", totalVentas);
         request.setAttribute("gastosTotales", gastosTotales);
         request.setAttribute("gananciasTotales", ganancias);
+        request.setAttribute("productosRecientes", productosRecientes);
         
 
         // Ir al dashboard

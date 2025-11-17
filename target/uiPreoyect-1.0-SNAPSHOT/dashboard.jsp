@@ -1,3 +1,5 @@
+<%@page import="com.bodegapp.inventario.dto.ProductoDTO"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.bodegapp.usuarios.model.UsuarioModel" %>
 
@@ -147,45 +149,33 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Nombre del Producto</th>
+                                <th>Codigo Producto</th>
+                                <th>Nombre</th>
                                 <th>Cantidad</th>
-                                <th>Proveedor</th>
                                 <th>Precio</th>
+                                <th>fecha</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Cosas de limpieza</td>
-                                <td>456</td>
-                                <td>AK1</td>
-                                <td>$9.800</td>
-                            </tr>
-                            <tr>
-                                <td>Bebidas</td>
-                                <td>45</td>
-                                <td>AK1</td>
-                                <td>$9.800</td>
-                            </tr>
-                            <tr>
-                                <td>Juguetes</td>
-                                <td>467</td>
-                                <td>AK1</td>
-                                <td>$9.800</td>
-                            </tr>
-                            <tr>
-                                <td>Comida</td>
-                                <td>4234</td>
-                                <td>AK1</td>
-                                <td>$9.800</td>
-                            </tr>
-                            <tr>
-                                <td>Mascotas</td>
-                                <td>12</td>
-                                <td>AK1</td>
-                                <td>$9.800</td>
-                            </tr>
-                        </tbody>
+<%
+    List<ProductoDTO> lista = (List<ProductoDTO>) request.getAttribute("productosRecientes");
+    if (lista != null) {
+        for (ProductoDTO p : lista) {
+%>
+    <tr>
+        <td><%= p.getCodigoProducto() %></td>
+        <td><%= p.getDescripcion() %></td>
+        <td><%= p.getCantidad() %></td>
+        <td>$<%= p.getPrecio() %></td>
+        <td><%= p.getFechaEntrega() %></td>
+    </tr>
+<%
+        }
+    }
+%>
+</tbody>
+
                     </table>
                     <a href="#">Mostrar todo</a>
                 </div>
