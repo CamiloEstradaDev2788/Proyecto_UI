@@ -49,10 +49,10 @@
                     <span class="material-symbols-sharp">inventory</span>
                     <h3>Inventario</h3>
                 </a>
-                <a href="#">
-                    <span class="material-symbols-sharp">person</span>
-                    <h3>Personal</h3>
-                </a>
+            <a href="<%= request.getContextPath() %>/PersonalController">
+                <span class="material-symbols-sharp">person</span>
+                <h3>Personal</h3>
+            </a>
                 <a href="#">
                     <span class="material-symbols-sharp">package_2</span>
                     <h3>Porveedores</h3>

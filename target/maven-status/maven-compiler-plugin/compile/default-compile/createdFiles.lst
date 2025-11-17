@@ -4,6 +4,7 @@ com\bodegapp\empresa\dao\EmpresaDAO.class
 com\bodegapp\usuarios\dao\UsuarioDAO.class
 com\bodegapp\inventario\dto\ProductoDTO.class
 com\bodegapp\rol\service\RolService.class
+com\bodegapp\personal\dao\PersonalDAO.class
 com\bodegapp\login\model\LoginModel.class
 com\bodegapp\core\test\TestConexion.class
 com\bodegapp\core\database\ConexionBD.class
@@ -18,10 +19,15 @@ com\bodegapp\inventario\controller\InventarioController.class
 com\bodegapp\login\service\LoginService.class
 com\bodegapp\usuarios\model\UsuarioModel.class
 com\bodegapp\rol\controller\RolController.class
+com\bodegapp\personal\model\VentaVendedorModel.class
 com\bodegapp\rol\dao\RolDAO.class
 com\bodegapp\empresa\model\EmpresaModel.class
 com\bodegapp\dashboard\controller\DashboardController.class
 com\bodegapp\usuarios\controller\UsuarioController.class
+com\bodegapp\personal\controller\PersonalController.class
+com\bodegapp\personal\dao\VentaVendedorDAO.class
 com\bodegapp\inventario\model\InventarioModel.class
 com\bodegapp\login\controller\LogoutController.class
+com\bodegapp\personal\model\PersonalModel.class
 com\bodegapp\empresa\service\EmpresaService.class
+com\bodegapp\personal\service\PersonalService.class

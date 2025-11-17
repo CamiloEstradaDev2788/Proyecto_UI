@@ -45,7 +45,7 @@
         </div>
 
         <div class="sidebar">
-            <a href="<%= request.getContextPath() %>/dashboard.jsp">
+            <a href="<%= request.getContextPath() %>/dashboard">
                 <span class="material-symbols-sharp">dashboard</span>
                 <h3>Dashboard</h3>
             </a>
@@ -55,7 +55,7 @@
                 <h3>Inventario</h3>
             </a>
 
-            <a href="#">
+            <a href="<%= request.getContextPath() %>/PersonalController">
                 <span class="material-symbols-sharp">person</span>
                 <h3>Personal</h3>
             </a>
@@ -112,7 +112,7 @@
         <br><br>
 
         <div class="table-container">
-            <table class="styled-table">
+            <table class="styled-table" style="border-collapse: separate !important; border-spacing: 0 !important;">
                 <thead>
                 <tr>
                     <th>Código</th>
@@ -123,7 +123,7 @@
                     <th>Unidad</th>
                     <th>Línea</th>
                     <th>Proveedor</th>
-                    <th>Acciones</th>
+                    <th style="text-align: center;">Acciones</th>
                 </tr>
                 </thead>
 

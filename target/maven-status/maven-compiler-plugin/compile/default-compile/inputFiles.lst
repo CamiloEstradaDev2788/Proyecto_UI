@@ -1,6 +1,7 @@
 C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\empresa\dao\EmpresaDAO.java
 C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\inventario\dao\ProductoDAO.java
 C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\login\controller\LoginController.java
+C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\personal\controller\PersonalController.java
 C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\core\test\TestConexion.java
 C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\rol\model\RolModel.java
 C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\usuarios\service\UsuarioService.java
@@ -19,9 +20,14 @@ C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp
 C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\login\model\LoginModel.java
 C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\usuarios\controller\UsuarioController.java
 C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\login\controller\LogoutController.java
+C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\personal\dao\VentaVendedorDAO.java
+C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\personal\service\PersonalService.java
+C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\personal\model\VentaVendedorModel.java
+C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\personal\dao\PersonalDAO.java
 C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\rol\service\RolService.java
 C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\login\service\LoginService.java
 C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\empresa\controller\EmpresaController.java
 C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\empresa\service\EmpresaService.java
+C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\personal\model\PersonalModel.java
 C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\inventario\service\InventarioService.java
 C:\Users\yefry\Documents\NetBeansProjects\Proyecto_UI\src\main\java\com\bodegapp\inventario\controller\InventarioController.java

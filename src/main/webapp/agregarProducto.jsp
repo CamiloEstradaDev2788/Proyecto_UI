@@ -101,7 +101,7 @@
                 <h3>Inventario</h3>
             </a>
 
-            <a href="#">
+            <a href="<%= request.getContextPath() %>/PersonalController">
                 <span class="material-symbols-sharp">person</span>
                 <h3>Personal</h3>
             </a>
