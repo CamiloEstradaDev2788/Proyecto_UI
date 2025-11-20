@@ -18,7 +18,8 @@ public class UsuarioModel {
     private double SALARIO;
     private String TIPO_CONTRATO;
     private boolean ESTADO;
-
+    private String CARGO;
+    
     public UsuarioModel(int ID_EMPRESA, int ID_ROL, String NOMBRE1, String NOMBRE2, String APELLIDO1, String APELLIDO2, String CEDULA, String CORREO, String CONTRASENA_HASH, Date FECHA_INGRESO, double SALARIO, String TIPO_CONTRATO, boolean ESTADO) {
         this.ID_EMPRESA = ID_EMPRESA;
         this.ID_ROL = ID_ROL;
@@ -33,6 +34,7 @@ public class UsuarioModel {
         this.SALARIO = SALARIO;
         this.TIPO_CONTRATO = TIPO_CONTRATO;
         this.ESTADO = ESTADO;
+        
     }
 
     public UsuarioModel() {
@@ -150,6 +152,12 @@ public class UsuarioModel {
         this.ESTADO = ESTADO;
     }
     
+    public String getCARGO() { 
+        return CARGO; 
+    }
     
+    public void setCARGO(String CARGO) { 
+        this.CARGO = CARGO; 
+    }
     
 }

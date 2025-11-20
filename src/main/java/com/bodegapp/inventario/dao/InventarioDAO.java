@@ -9,46 +9,49 @@ import com.bodegapp.core.database.ConexionBD;
 
 public class InventarioDAO {
 
-    public List<InventarioModel> listar() {
-        List<InventarioModel> lista = new ArrayList<>();
+    public List<InventarioModel> listar(int idEmpresa) {
+    List<InventarioModel> lista = new ArrayList<>();
 
-        // Consulta con JOIN a través de la tabla abastecimiento
-        String sql = "SELECT p.*, " +
-                     "       COALESCE(GROUP_CONCAT(DISTINCT pr.RAZON_SOCIAL SEPARATOR ', '), 'Sin proveedor') AS NOMBRE_PROVEEDOR " +
-                     "FROM productos p " +
-                     "LEFT JOIN abastecimiento a ON a.CODIGO_PRODUCTO = p.CODIGO_PRODUCTO " +
-                     "LEFT JOIN proveedores pr ON pr.CODIGO_PROVEEDOR = a.CODIGO_PROVEEDOR " +
-                     "GROUP BY p.CODIGO_PRODUCTO, p.DESCRIPCION_PRODUCTO, p.PRECIO_PRODUCTO, " +
-                     "         p.SACO_PRODUCTO, p.MINIMO_STOCK, p.UNIDAD_PRODUCTO, " +
-                     "         p.LINEA_PRODUCTO, p.IMPUESTO_PRODUCTO";
+    String sql = "SELECT p.*, " +
+                 " COALESCE(GROUP_CONCAT(DISTINCT pr.RAZON_SOCIAL SEPARATOR ', '), 'Sin proveedor') AS NOMBRE_PROVEEDOR " +
+                 "FROM productos p " +
+                 "LEFT JOIN abastecimiento a ON a.CODIGO_PRODUCTO = p.CODIGO_PRODUCTO " +
+                 "LEFT JOIN proveedores pr ON pr.CODIGO_PROVEEDOR = a.CODIGO_PROVEEDOR " +
+                 "JOIN empresas em ON em.ID_EMPRESA = pr.ID_EMPRESA " +
+                 "WHERE em.ID_EMPRESA = ? " +
+                 "GROUP BY p.CODIGO_PRODUCTO, p.DESCRIPCION_PRODUCTO, p.PRECIO_PRODUCTO, " +
+                 "         p.SACO_PRODUCTO, p.MINIMO_STOCK, p.UNIDAD_PRODUCTO, " +
+                 "         p.LINEA_PRODUCTO, p.IMPUESTO_PRODUCTO";
 
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+    try (Connection con = ConexionBD.getConexion();
+         PreparedStatement ps = con.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                InventarioModel p = new InventarioModel();
+        ps.setInt(1, idEmpresa);
+        ResultSet rs = ps.executeQuery();
 
-                p.setCODIGO_PRODUCTO(rs.getString("CODIGO_PRODUCTO"));
-                p.setDESCRIPCION_PRODUCTO(rs.getString("DESCRIPCION_PRODUCTO"));
-                p.setPRECIO_PRODUCTO(rs.getDouble("PRECIO_PRODUCTO"));
-                p.setSACO_PRODUCTO(rs.getInt("SACO_PRODUCTO"));
-                p.setMINIMO_STOCK(rs.getInt("MINIMO_STOCK"));
-                p.setUNIDAD_PRODUCTO(rs.getString("UNIDAD_PRODUCTO"));
-                p.setLINEA_PRODUCTO(rs.getString("LINEA_PRODUCTO"));
-                p.setIMPUESTO_PRODUCTO(rs.getString("IMPUESTO_PRODUCTO"));
-                p.setNOMBRE_PROVEEDOR(rs.getString("NOMBRE_PROVEEDOR"));
+        while (rs.next()) {
+            InventarioModel p = new InventarioModel();
 
-                lista.add(p);
-            }
+            p.setCODIGO_PRODUCTO(rs.getString("CODIGO_PRODUCTO"));
+            p.setDESCRIPCION_PRODUCTO(rs.getString("DESCRIPCION_PRODUCTO"));
+            p.setPRECIO_PRODUCTO(rs.getDouble("PRECIO_PRODUCTO"));
+            p.setSACO_PRODUCTO(rs.getInt("SACO_PRODUCTO"));
+            p.setMINIMO_STOCK(rs.getInt("MINIMO_STOCK"));
+            p.setUNIDAD_PRODUCTO(rs.getString("UNIDAD_PRODUCTO"));
+            p.setLINEA_PRODUCTO(rs.getString("LINEA_PRODUCTO"));
+            p.setIMPUESTO_PRODUCTO(rs.getString("IMPUESTO_PRODUCTO"));
+            p.setNOMBRE_PROVEEDOR(rs.getString("NOMBRE_PROVEEDOR"));
 
-        } catch (Exception e) {
-            System.out.println("Error al listar productos: " + e.getMessage());
-            e.printStackTrace();
+            lista.add(p);
         }
 
-        return lista;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+
+    return lista;
+}
+
 
     public List<InventarioModel> buscar(String criterio) {
         List<InventarioModel> lista = new ArrayList<>();

@@ -11,7 +11,9 @@ public class UsuarioDAO {
     
     public boolean registrar(UsuarioModel u){
     
-    String SQL = "INSERT INTO usuarios (ID_ROL, ID_EMPRESA, NOMBRE1, NOMBRE2, APELLIDO1, APELLIDO2, CEDULA, CORREO, CONTRASENA_HASH, FECHA_INGRESO, SALARIO, TIPO_CONTRATO, ESTADO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    String SQL = "INSERT INTO usuarios "
+            + "(ID_ROL, ID_EMPRESA, NOMBRE1, NOMBRE2, APELLIDO1, APELLIDO2, CEDULA, CORREO, CONTRASENA_HASH, FECHA_INGRESO, SALARIO, TIPO_CONTRATO, ESTADO) "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     try(Connection con = ConexionBD.getConexion();
         PreparedStatement ps = con.prepareStatement(SQL)){
     
@@ -74,8 +76,11 @@ public class UsuarioDAO {
     
     public UsuarioModel login (String correo, String contrasenaHash) {
         UsuarioModel usuario = null;
-        String SQL = "SELECT * FROM usuarios WHERE CORREO = ? AND CONTRASENA_HASH = ? AND ESTADO = 1";
         
+        String SQL = "SELECT u.*, r.NOMBRE_ROL "
+                + "FROM usuarios u "
+                + "JOIN  roles r ON r.ID_ROL = u.ID_ROL "
+                + "WHERE u.CORREO = ? AND u.CONTRASENA_HASH = ? AND u.ESTADO = 1";
         try (Connection con = ConexionBD.getConexion();
             PreparedStatement ps = con.prepareStatement(SQL)) {
             
@@ -99,6 +104,7 @@ public class UsuarioDAO {
                     usuario.setSALARIO(rs.getDouble("salario"));
                     usuario.setTIPO_CONTRATO(rs.getString("Tipo_contrato"));
                     usuario.setESTADO(rs.getBoolean("estado"));
+                    usuario.setCARGO(rs.getString("NOMBRE_ROL"));
                 }
             }
         } catch (SQLException ex) {

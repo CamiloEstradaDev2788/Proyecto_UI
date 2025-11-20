@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.bodegapp.inventario.model.InventarioModel;
 import com.bodegapp.inventario.service.InventarioService;
+import com.bodegapp.usuarios.model.UsuarioModel;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -14,9 +15,15 @@ import jakarta.servlet.annotation.WebServlet;
 public class InventarioController extends HttpServlet {
 
     InventarioService service = new InventarioService();
+    
+    
 
     protected void doGet(HttpServletRequest rq, HttpServletResponse rs)
             throws ServletException, IOException {
+        
+        HttpSession session = rq.getSession();
+        UsuarioModel usuario = (UsuarioModel) session.getAttribute("usuario");
+        int idEmpresa = usuario.getID_EMPRESA();
 
         String accion = rq.getParameter("accion");
         String buscar = rq.getParameter("buscar");
@@ -26,7 +33,7 @@ public class InventarioController extends HttpServlet {
         if (buscar != null && !buscar.trim().isEmpty()) {
             lista = service.buscar(buscar.trim());
         } else {
-            lista = service.listar();
+            lista = service.listar(idEmpresa);
         }
 
         if (accion != null && accion.equals("eliminar")) {

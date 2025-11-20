@@ -42,7 +42,7 @@
         </div>
 
         <div class="sidebar">
-            <a href="<%= request.getContextPath() %>/dashboard.jsp">
+            <a href="<%= request.getContextPath() %>/dashboard">
                 <span class="material-symbols-sharp">dashboard</span>
                 <h3>Dashboard</h3>
             </a>

@@ -194,8 +194,12 @@
                 </div>
                 <div class="profile">
                     <div class="info">
-                        <p>Hola, <b>Usuario</b></p>
-                        <small class="text-muted">Admin</small>
+                        <%
+                            com.bodegapp.usuarios.model.UsuarioModel user = 
+                            (com.bodegapp.usuarios.model.UsuarioModel) session.getAttribute("usuario");
+                        %>
+                        <p>Hola, <b><%= user.getNOMBRE1() %> <%= user.getAPELLIDO1() %></b></p>
+                        <small class="text-muted"><%= user.getCARGO() %></small>
                     </div>
                 </div>
             </div>
