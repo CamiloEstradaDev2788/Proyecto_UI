@@ -15,9 +15,11 @@ C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyec
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\rol\service\RolService.java
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\empresa\controller\EmpresaController.java
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\inventario\dao\InventarioDAO.java
+C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\vendedor\model\VentaRecienteModel.java
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\personal\model\PersonalModel.java
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\usuarios\model\UsuarioModel.java
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\usuarios\dao\UsuarioDAO.java
+C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\vendedor\controller\VendedorController.java
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\dashboard\dao\DashboardDAO.java
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\personal\dao\PersonalDAO.java
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\rol\model\RolModel.java
@@ -26,8 +28,10 @@ C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyec
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\usuarios\service\UsuarioService.java
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\usuarios\controller\UsuarioController.java
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\personal\model\VentaVendedorModel.java
+C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\vendedor\service\DashboardVendedorService.java
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\inventario\dao\ProductoDAO.java
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\inventario\model\InventarioModel.java
+C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\vendedor\dao\VendedorDAO.java
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\empresa\model\EmpresaModel.java
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\personal\service\PersonalService.java
 C:\Users\USUARIO\Desktop\5 semestre\Interfaz de usuario\Proyecto_Final_UI\Proyecto_Final_UI\Final_UI\src\main\java\com\bodegapp\personal\controller\PersonalController.java

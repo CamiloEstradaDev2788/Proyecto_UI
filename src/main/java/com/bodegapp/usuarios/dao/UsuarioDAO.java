@@ -77,9 +77,10 @@ public class UsuarioDAO {
     public UsuarioModel login (String correo, String contrasenaHash) {
         UsuarioModel usuario = null;
         
-        String SQL = "SELECT u.*, r.NOMBRE_ROL "
+        String SQL = "SELECT u.*, r.NOMBRE_ROL, v.CODIGO_VENDEDOR "
                 + "FROM usuarios u "
                 + "JOIN  roles r ON r.ID_ROL = u.ID_ROL "
+                + "LEFT JOIN vendedores v ON v.ID_USER = u.ID_USER "
                 + "WHERE u.CORREO = ? AND u.CONTRASENA_HASH = ? AND u.ESTADO = 1";
         try (Connection con = ConexionBD.getConexion();
             PreparedStatement ps = con.prepareStatement(SQL)) {
@@ -105,6 +106,8 @@ public class UsuarioDAO {
                     usuario.setTIPO_CONTRATO(rs.getString("Tipo_contrato"));
                     usuario.setESTADO(rs.getBoolean("estado"));
                     usuario.setCARGO(rs.getString("NOMBRE_ROL"));
+                    usuario.setID_VENDEDOR(rs.getString("CODIGO_VENDEDOR"));
+
                 }
             }
         } catch (SQLException ex) {

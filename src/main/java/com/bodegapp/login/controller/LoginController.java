@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.bodegapp.login.model.LoginModel;
 import com.bodegapp.login.service.LoginService;
 import com.bodegapp.usuarios.model.UsuarioModel;
+import com.bodegapp.usuarios.service.UsuarioService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 public class LoginController extends HttpServlet {
 
     private LoginService loginService = new LoginService();
+    private UsuarioService usuarioService = new UsuarioService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -30,19 +32,36 @@ public class LoginController extends HttpServlet {
         UsuarioModel usuario = loginService.autenticar(loginData);
 
         if (usuario != null) {
-            // Crear sesión
-            HttpSession sesion = request.getSession();
-            
-            sesion.setAttribute("usuario", usuario);
-            sesion.setAttribute("idEmpresa", usuario.getID_EMPRESA());
-            sesion.setAttribute("idRol", usuario.getID_ROL());
-            
 
-            // Según el rol del usuario puedes redirigir al dashboard correcto
+            // Crear sesión
+            HttpSession session = request.getSession();
+
+            session.setAttribute("usuario", usuario);
+            session.setAttribute("idEmpresa", usuario.getID_EMPRESA());
+            session.setAttribute("idRol", usuario.getID_ROL());
+
+            // -------------------------------
+            // SI EL USUARIO ES VENDEDOR
+            // -------------------------------
+            if ("VENDEDOR".equalsIgnoreCase(usuario.getCARGO())) {
+
+                String codigoVendedor = usuarioService.obtenerCodigoVendedor(usuario.getID_USER());
+
+                session.setAttribute("codigoVendedor", codigoVendedor);
+
+                // Enviar al dashboard de vendedor
+                response.sendRedirect("dashboardVendedor");
+                return;
+            }
+
+            // ------------------------------
+            // OTROS ROLES → dashboard general
+            // ------------------------------
             response.sendRedirect("dashboard");
+            return;
 
         } else {
-            // Login fallido
+            // Error de login
             request.setAttribute("error", "Correo o contraseña incorrectos.");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }

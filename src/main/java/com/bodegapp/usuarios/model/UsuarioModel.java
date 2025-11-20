@@ -19,6 +19,8 @@ public class UsuarioModel {
     private String TIPO_CONTRATO;
     private boolean ESTADO;
     private String CARGO;
+    private String ID_VENDEDOR;
+
     
     public UsuarioModel(int ID_EMPRESA, int ID_ROL, String NOMBRE1, String NOMBRE2, String APELLIDO1, String APELLIDO2, String CEDULA, String CORREO, String CONTRASENA_HASH, Date FECHA_INGRESO, double SALARIO, String TIPO_CONTRATO, boolean ESTADO) {
         this.ID_EMPRESA = ID_EMPRESA;
@@ -160,4 +162,12 @@ public class UsuarioModel {
         this.CARGO = CARGO; 
     }
     
+    public String getID_VENDEDOR() {
+    return ID_VENDEDOR;
+    }
+
+    public void setID_VENDEDOR(String ID_VENDEDOR) {
+    this.ID_VENDEDOR = ID_VENDEDOR;
+    }
+
 }
