@@ -1,8 +1,12 @@
 package com.bodegapp.vendedor.controller;
 
+import com.bodegapp.inventario.model.InventarioModel;
+import com.bodegapp.inventario.model.ProductoModel;
+import com.bodegapp.usuarios.model.UsuarioModel;
 import com.bodegapp.vendedor.dao.NuevaVentaDAO;
 import com.bodegapp.vendedor.model.NuevaVentaDTO;
 import com.bodegapp.vendedor.model.NuevoDetalleVentaDTO;
+import com.bodegapp.vendedor.service.DashboardVendedorService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,15 +22,46 @@ import java.util.List;
 @WebServlet("/nuevaVenta")
 public class NuevaVentaController extends HttpServlet {
 
+     private DashboardVendedorService service = new DashboardVendedorService();
     // =========================================
     // 1️⃣ GET → solo muestra el formulario
     // =========================================
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
 
+    try {
+
+        // Obtén el usuario desde sesión (o de donde lo tengas)
+        UsuarioModel vendedor = (UsuarioModel) request.getSession().getAttribute("usuario");
+
+        if (vendedor == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+        // Cargar inventario según empresa
+        List<InventarioModel> listaProductos = service.listarInventario(vendedor.getID_EMPRESA());
+        request.setAttribute("listaProductos", listaProductos);
+        request.setAttribute("usuario", vendedor);
+
+        System.out.println("Cantidad productos inventario = " + listaProductos.size());
+
+    for (InventarioModel p : listaProductos) {
+    System.out.println("Producto: " + p.getCODIGO_PRODUCTO() + 
+        " - " + p.getDESCRIPCION_PRODUCTO() + 
+        " - Precio: " + p.getPRECIO_PRODUCTO());
+}
+        // Ir al JSP
+        request.getRequestDispatcher("nuevaVenta.jsp").forward(request, response);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        request.setAttribute("error", "No se pudo cargar el inventario para la venta.");
         request.getRequestDispatcher("nuevaVenta.jsp").forward(request, response);
     }
+}
+
 
     // =========================================
     // 2️⃣ POST → procesa y registra la venta

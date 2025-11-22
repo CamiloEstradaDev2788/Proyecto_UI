@@ -39,7 +39,7 @@ public class NuevaVentaDAO {
     PreparedStatement psVenta = null;
     PreparedStatement psDetalle = null;
 
-    String idVentaGenerado = "FA226"; // temporal
+    String idVentaGenerado = "FA228"; // temporal
 
     String SQLVenta = "INSERT INTO factura "
             + "(NUMERO_FACTURA, CODIGO_VENDEDOR, CODIGO_CLIENTE, FECHA_FACTURA, FECHA_CANCELACION, ESTADO_FACTURA, PORCENTAJE_IGV) "

@@ -100,12 +100,12 @@ public class VendedorDAO {
         List<VentaRecienteModel> lista = new ArrayList<>();
 
         String sql = "SELECT p.DESCRIPCION_PRODUCTO, df.CANTIDAD_VENTA, df.PRECIO_VENTA, f.FECHA_FACTURA " +
-                     "FROM factura f " +
-                     "JOIN detalle_factura df ON df.NUMERO_FACTURA = f.NUMERO_FACTURA " +
-                     "JOIN productos p ON p.CODIGO_PRODUCTO = df.CODIGO_PRODUCTO " +
-                     "WHERE f.CODIGO_VENDEDOR = ? " +
-                     "ORDER BY f.FECHA_FACTURA DESC " +
-                     "LIMIT 5";
+             "FROM factura f " +
+             "JOIN detalle_factura df ON df.NUMERO_FACTURA = f.NUMERO_FACTURA " +
+             "JOIN productos p ON p.CODIGO_PRODUCTO = df.CODIGO_PRODUCTO " +
+             "WHERE f.CODIGO_VENDEDOR = ? " +        //  <-- AQUÍ DEBE ESTAR EL ?
+             "ORDER BY f.FECHA_FACTURA DESC, f.NUMERO_FACTURA DESC " +
+             "LIMIT 5";
 
         try (Connection con = ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
