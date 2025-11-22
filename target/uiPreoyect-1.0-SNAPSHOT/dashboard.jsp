@@ -2,6 +2,9 @@
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.bodegapp.usuarios.model.UsuarioModel" %>
+<%@ page import="com.bodegapp.dashboard.dao.AlertaDTO" %>
+<%@ page import="java.util.List" %>
+
 
 <%
     HttpSession sesion = request.getSession(false);
@@ -34,7 +37,7 @@
         <aside>
             <div class="top">
                 <div class="logo">
-                    <img src="65844.png" alt="logo">
+                    <img src="/assest/img/logo.png" alt="logo">
                 </div>
                 <div class="close" id="close-btn">
                     <span class="material-symbols-sharp">close</span>
@@ -53,23 +56,8 @@
                 <span class="material-symbols-sharp">person</span>
                 <h3>Personal</h3>
             </a>
-                <a href="#">
-                    <span class="material-symbols-sharp">package_2</span>
-                    <h3>Porveedores</h3>
-                </a>
-                <a href="#">
-                    <span class="material-symbols-sharp">order_approve</span>
-                    <h3>Ventas</h3>
-                </a>
-                <a href="#">
-                    <span class="material-symbols-sharp">finance_mode</span>
-                    <h3>Analiticas</h3>
-                </a>
-                <a href="#">
-                    <span class="material-symbols-sharp">settings</span>
-                    <h3>Configuración</h3>
-                </a>
-                <a href="#">
+            
+                <a href="logout">
                     <span class="material-symbols-sharp">logout</span>
                     <h3>Logout</h3>
                 </a>
@@ -204,45 +192,63 @@
                 </div>
             </div>
         <!--==================Fin top-right==================--->
-        <div class="important-dates">
-            <h2>Fechas importantes</h2>
-            <div class="important">
-                <div class="date">
-                    <div class="image-element">
-                        <span class="material-symbols-sharp">blender</span>
-                    </div>
-                    <div class="name-element">
-                        <p><b>Leche</b> 20-11-2025</p>
-                    </div>
-                    <div class="date">
-                    <div class="image-element">
-                        <span class="material-symbols-sharp">blender</span>
-                    </div>
-                    <div class="name-element">
-                        <p><b>Leche</b> 20-11-2025</p>
-                    </div>
+      <!-- ================== ALERTAS ================== -->
+<!-- ================== ALERTAS ================== -->
+<div class="important-dates">
+    <h2>Alertas</h2>
+
+    <div class="important">
+
+        <%
+            List<com.bodegapp.dashboard.dao.AlertaDTO> alertas =
+                (List<com.bodegapp.dashboard.dao.AlertaDTO>) request.getAttribute("alertas");
+        %>
+
+        <% if (alertas == null || alertas.isEmpty()) { %>
+
+            <p>No hay alertas por el momento.</p>
+
+        <% } else { 
+               for (com.bodegapp.dashboard.dao.AlertaDTO alerta : alertas) { %>
+
+            <div class="date">
+                <div class="image-element">
+                    <span class="material-symbols-sharp">warning</span>
                 </div>
-                <div class="date">
-                    <div class="image-element">
-                        <span class="material-symbols-sharp">blender</span>
-                    </div>
-                    <div class="name-element">
-                        <p><b>Leche</b> 20-11-2025</p>
-                    </div>
-                </div>
-                <div class="date">
-                    <div class="image-element">
-                        <span class="material-symbols-sharp">blender</span>
-                    </div>
-                    <div class="name-element">
-                        <p><b>Leche</b> 20-11-2025</p>
-                    </div>
-                </div>
+
+                <div class="name-element">
+                    <p>
+                        <!-- TÍTULO -->
+                        <b><%= alerta.getTitulo() %></b><br>
+
+                        <!-- DESCRIPCIÓN -->
+                        <%= alerta.getDescripcion() %><br>
+
+                        <!-- EXTRA INFO -->
+                        <small>
+                            <% if (alerta.getVendedor() != null && !alerta.getVendedor().isEmpty()) { %>
+                                <b>Vendedor:</b> <%= alerta.getVendedor() %><br>
+                            <% } %>
+
+                            <b>Solicitó:</b> <%= alerta.getSolicitud() %>
+                        </small><br>
+
+                        <!-- FECHA -->
+                        <small><%= alerta.getFecha() %></small>
+                    </p>
                 </div>
             </div>
-        </div>
-        </div>
+
+        <%   } 
+           } 
+        %>
+
     </div>
+</div>
+<!-- ================== FIN ALERTAS ================== -->
+
+
+<!-- ================== Fin Right ================== -->
 
 </body>
 </html>

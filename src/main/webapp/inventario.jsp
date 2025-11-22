@@ -60,21 +60,6 @@
                 <h3>Personal</h3>
             </a>
 
-            <a href="#">
-                <span class="material-symbols-sharp">package_2</span>
-                <h3>Proveedores</h3>
-            </a>
-
-            <a href="#">
-                <span class="material-symbols-sharp">order_approve</span>
-                <h3>Ventas</h3>
-            </a>
-
-            <a href="#">
-                <span class="material-symbols-sharp">finance_mode</span>
-                <h3>Analíticas</h3>
-            </a>
-
             <a href="logout">
                 <span class="material-symbols-sharp">logout</span>
                 <h3>Logout</h3>

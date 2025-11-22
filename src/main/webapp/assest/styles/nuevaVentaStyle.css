@@ -1,0 +1,106 @@
+/* ventaStyle.css */
+
+/* Body general */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f5f5f5;
+}
+
+/* Títulos */
+h1 {
+    color: #333;
+}
+
+p {
+    color: #555;
+}
+
+/* Mensajes */
+.success {
+    color: green;
+    margin-bottom: 10px;
+}
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+/* Formulario */
+.form-venta {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 800px;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Labels y select/input */
+.form-venta label {
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-venta select,
+.form-venta input[type="number"] {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+/* Botones */
+.form-venta button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 7px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.form-venta button:hover {
+    background-color: #0056b3;
+}
+
+/* Tabla */
+#tablaProductos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#tablaProductos th, #tablaProductos td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#tablaProductos th {
+    background-color: #007bff;
+    color: white;
+}
+
+#tablaProductos tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#tablaProductos button {
+    background-color: #dc3545;
+    padding: 5px 10px;
+    font-size: 0.9em;
+}
+
+#tablaProductos button:hover {
+    background-color: #a71d2a;
+}
+
+/* Total */
+h3 {
+    margin-top: 10px;
+    color: #333;
+}

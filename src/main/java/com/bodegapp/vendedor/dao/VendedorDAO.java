@@ -1,6 +1,7 @@
 package com.bodegapp.vendedor.dao;
 
 import com.bodegapp.core.database.ConexionBD;
+import com.bodegapp.inventario.model.ProductoModel;
 import com.bodegapp.vendedor.model.VentaRecienteModel;
 import java.sql.*;
 import java.util.ArrayList;
@@ -124,6 +125,39 @@ public class VendedorDAO {
 
         } catch (Exception e) {
             System.out.println("Error obtenerVentasRecientes: " + e.getMessage());
+        }
+
+        return lista;
+    }
+    
+    
+    //Listar Productos Disponibles
+    
+      // Listar productos disponibles (stock > 0)
+    public List<ProductoModel> listarProductosDisponibles() {
+        List<ProductoModel> lista = new ArrayList<>();
+        String sql = "SELECT * FROM productos WHERE SACO_PRODUCTO > 0";
+
+        try (Connection con = ConexionBD.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                ProductoModel p = new ProductoModel();
+                p.setCODIGO_PRODUCTO(rs.getString("CODIGO_PRODUCTO"));
+                p.setDESCRIPCION_PRODUCTO(rs.getString("DESCRIPCION_PRODUCTO"));
+                p.setPRECIO_PRODUCTO(rs.getDouble("PRECIO_PRODUCTO"));
+                p.setSACO_PRODUCTO(rs.getInt("SACO_PRODUCTO"));
+                p.setMINIMO_STOCK(rs.getInt("MINIMO_STOCK"));
+                p.setUNIDAD_PRODUCTO(rs.getString("UNIDAD_PRODUCTO"));
+                p.setLINEA_PRODUCTO(rs.getString("LINEA_PRODUCTO"));
+                p.setIMPUESTO_PRODUCTO(rs.getString("IMPUESTO_PRODUCTO"));
+
+                lista.add(p);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error listarProductosDisponibles: " + e.getMessage());
         }
 
         return lista;

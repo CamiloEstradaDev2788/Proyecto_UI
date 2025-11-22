@@ -34,10 +34,15 @@
                 <span class="material-icons-sharp">dashboard</span>
                 <h3>Dashboard</h3>
             </a>
+            
+            <a href="${pageContext.request.contextPath}/nuevaVenta" class="active">
+                <span class="material-icons-sharp">dashboard</span>
+                <h3>Nueva Venta</h3>
+            </a>
 
-            <a href="ventas">
+            <a href="InventarioVendedorController">
                 <span class="material-icons-sharp">shopping_cart</span>
-                <h3>Registrar Venta</h3>
+                <h3>Productos</h3>
             </a>
 
             <a href="logout">
