@@ -3,6 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.bodegapp.usuarios.model.UsuarioModel" %>
 <%@ page import="com.bodegapp.dashboard.dao.AlertaDTO" %>
+<%@ page import="com.bodegapp.clientes.controller.ClientesController" %>
 <%@ page import="java.util.List" %>
 
 
@@ -55,6 +56,10 @@
             <a href="<%= request.getContextPath() %>/PersonalController">
                 <span class="material-symbols-sharp">person</span>
                 <h3>Personal</h3>
+            </a>
+                <a href="<%= request.getContextPath() %>/ClientesController">
+                <span class="material-symbols-sharp">person</span>
+                <h3>Clientes</h3>
             </a>
             
                 <a href="logout">
