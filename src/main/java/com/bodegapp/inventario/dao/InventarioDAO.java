@@ -15,8 +15,8 @@ public class InventarioDAO {
     String sql = "SELECT p.*, " +
                  " COALESCE(GROUP_CONCAT(DISTINCT pr.RAZON_SOCIAL SEPARATOR ', '), 'Sin proveedor') AS NOMBRE_PROVEEDOR " +
                  "FROM productos p " +
-                 "LEFT JOIN abastecimiento a ON a.CODIGO_PRODUCTO = p.CODIGO_PRODUCTO " +
-                 "LEFT JOIN proveedores pr ON pr.CODIGO_PROVEEDOR = a.CODIGO_PROVEEDOR " +
+                 "JOIN abastecimiento a ON a.CODIGO_PRODUCTO = p.CODIGO_PRODUCTO " +
+                 "JOIN proveedores pr ON pr.CODIGO_PROVEEDOR = a.CODIGO_PROVEEDOR " +
                  "JOIN empresas em ON em.ID_EMPRESA = pr.ID_EMPRESA " +
                  "WHERE em.ID_EMPRESA = ? " +
                  "GROUP BY p.CODIGO_PRODUCTO, p.DESCRIPCION_PRODUCTO, p.PRECIO_PRODUCTO, " +
@@ -107,9 +107,11 @@ public class InventarioDAO {
 
     public boolean registrar(InventarioModel p) {
         String sql = "INSERT INTO productos (CODIGO_PRODUCTO, DESCRIPCION_PRODUCTO, PRECIO_PRODUCTO, SACO_PRODUCTO, MINIMO_STOCK, UNIDAD_PRODUCTO, LINEA_PRODUCTO, IMPUESTO_PRODUCTO) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String abastecimientoSQL = "INSERT INTO abastecimiento ( CODIGO_PRODUCTO, CODIGO_PROVEEDOR, PRECIO_ABASTECIMIENTO) VALUES (?, ?, ?)";
 
         try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(sql);
+             PreparedStatement pa = con.prepareStatement(abastecimientoSQL)) {
 
             ps.setString(1, p.getCODIGO_PRODUCTO());
             ps.setString(2, p.getDESCRIPCION_PRODUCTO());

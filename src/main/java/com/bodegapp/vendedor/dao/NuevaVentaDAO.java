@@ -39,7 +39,6 @@ public class NuevaVentaDAO {
     PreparedStatement psVenta = null;
     PreparedStatement psDetalle = null;
 
-    String idVentaGenerado = "FA228"; // temporal
 
     String SQLVenta = "INSERT INTO factura "
             + "(NUMERO_FACTURA, CODIGO_VENDEDOR, CODIGO_CLIENTE, FECHA_FACTURA, FECHA_CANCELACION, ESTADO_FACTURA, PORCENTAJE_IGV) "
@@ -54,6 +53,7 @@ public class NuevaVentaDAO {
         con = ConexionBD.getConexion();
         con.setAutoCommit(false); // INICIA TRANSACCIÓN
 
+        String idVentaGenerado = generarCodigoFactura(con);
         // INSERTAR VENTA
         psVenta = con.prepareStatement(SQLVenta);
         psVenta.setString(1, idVentaGenerado);
@@ -96,6 +96,31 @@ public class NuevaVentaDAO {
         if (psDetalle != null) psDetalle.close();
         if (con != null) con.close();
     }
+}
+
+    public String generarCodigoFactura(Connection conn) {
+    String nuevoCodigo = "FA001"; // Valor por defecto si no hay facturas
+    String sql = "SELECT NUMERO_FACTURA FROM FACTURA ORDER BY NUMERO_FACTURA DESC LIMIT 1;";
+
+    try (PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        if (rs.next()) {
+            String ultimoCodigo = rs.getString("NUMERO_FACTURA"); // Ej: FA023
+            // Extraer la parte numérica
+            String numeroStr = ultimoCodigo.substring(2); // "023"
+            int numero = Integer.parseInt(numeroStr);
+            numero++; // Incrementar
+            // Formatear con ceros a la izquierda
+            String numeroFormateado = String.format("%03d", numero);
+            nuevoCodigo = "FA" + numeroFormateado; // Ej: FA024
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return nuevoCodigo;
 }
 
 }
