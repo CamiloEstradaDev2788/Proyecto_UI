@@ -32,8 +32,8 @@ public class DashboardController extends HttpServlet {
             return;
         }
 
-        String inicio = "2013-11-01";
-        String fin = "2013-12-31";
+        String inicio = "2013-01-01";
+        String fin = "2050-12-31";
 
         // Obtener usuario desde sesión
         UsuarioModel usuario = (UsuarioModel) session.getAttribute("usuario");

@@ -77,16 +77,7 @@
                                     <h3>Ventas Totales</h3>
                                     <h1>$<%= request.getAttribute("totalVentas")%></h1>
                                 </div>
-                                <div class="progress">
-                                    <svg>
-                                        <circle cx="38" cy="38" r="36"></circle>
-                                    </svg>
-                                    <div class="number">
-                                    <p>81%</p>
-                                    </div>
-                                </div>
                             </div>
-                        <small class="text-muted">Ultimas 24 horas</small>
                     </div>
                     <!------------------Fin Ventas----------------------------->
                     <!----------------Inicio gastos----------------------------->
@@ -97,16 +88,7 @@
                                     <h3>Gastos Totales</h3>
                                     <h1>$<%= request.getAttribute("gastosTotales") %></h1>
                                 </div>
-                                <div class="progress">
-                                    <svg>
-                                        <circle cx="38" cy="38" r="36"></circle>
-                                    </svg>
-                                    <div class="number">
-                                    <p>81%</p>
-                                    </div>
-                                </div>
                             </div>
-                        <small class="text-muted">Ultimas 24 horas</small>
                     </div>
                     <!------------------Fin gastos----------------------------->
                     <!------------------Inicio ingresos------------------------>
@@ -117,16 +99,7 @@
                                     <h3>Ingresos</h3>
                                     <h1>$<%= request.getAttribute("gananciasTotales") %></h1>
                                 </div>
-                                <div class="progress">
-                                    <svg>
-                                        <circle cx="38" cy="38" r="36"></circle>
-                                    </svg>
-                                    <div class="number">
-                                    <p>81%</p>
-                                    </div>
-                                </div>
                             </div>
-                        <small class="text-muted">Ultimas 24 horas</small>
                     </div>
                     <!------------------Fin ingresos----------------------------->
                 </div>

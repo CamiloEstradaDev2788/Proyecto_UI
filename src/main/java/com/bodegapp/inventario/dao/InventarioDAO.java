@@ -107,12 +107,26 @@ public class InventarioDAO {
     }
 
     public boolean registrar(InventarioModel p, ProveedorModel prv) {
+             
+        //SQLS
         String sql = "INSERT INTO productos (CODIGO_PRODUCTO, DESCRIPCION_PRODUCTO, PRECIO_PRODUCTO, SACO_PRODUCTO, MINIMO_STOCK, UNIDAD_PRODUCTO, LINEA_PRODUCTO, IMPUESTO_PRODUCTO) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         String abastecimientoSQL = "INSERT INTO abastecimiento ( CODIGO_PRODUCTO, CODIGO_PROVEEDOR, PRECIO_ABASTECIMIENTO) VALUES (?, ?, ?)";
-
+        String ordenCompraSQL = "INSERT INTO orden_compra ( NUMERO_ORDEN, CODIGO_PROVEEDOR, FECHA_COMPRA, FECHA_ENTREGA, ESTADO_ORDEN) VALUES (?, ?, ?, ?, ?)";
+        String detalleComprSQL = "INSERT INTO detalle_compra ( NUMERO_ORDEN, CODIGO_PRODUCTO, CANTIDAD_DETALLE) VALUES (?, ?, ?)";
+        
         try (Connection con = ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(sql);
-             PreparedStatement pa = con.prepareStatement(abastecimientoSQL)) {
+             PreparedStatement pa = con.prepareStatement(abastecimientoSQL);
+             PreparedStatement poc = con.prepareStatement(ordenCompraSQL);
+             PreparedStatement pdc = con.prepareStatement(detalleComprSQL)){
+            
+        //Variables
+        String numero_orden = generarCodigoNuevaOrdenCompra(con);
+            System.out.println(numero_orden);
+        Date fechaCompra = new java.sql.Date(System.currentTimeMillis());
+        long sieteDiasMs = 7L * 24 * 60 * 60 * 1000;
+        Date fechaEntrega = new Date(System.currentTimeMillis() + sieteDiasMs);
+        
 
             ps.setString(1, p.getCODIGO_PRODUCTO());
             ps.setString(2, p.getDESCRIPCION_PRODUCTO());
@@ -126,9 +140,22 @@ public class InventarioDAO {
             pa.setString(1, p.getCODIGO_PRODUCTO());
             pa.setString(2, prv.getCODIGO_PROVEEDOR());
             pa.setDouble(3, p.getPRECIO_PRODUCTO());
+            
+            poc.setString(1, numero_orden);
+            poc.setString(2, prv.getCODIGO_PROVEEDOR());
+            poc.setDate(3, fechaCompra);
+            poc.setDate(4, fechaEntrega);
+            poc.setString(5, "Pendeinte");
+            
+            pdc.setString(1, numero_orden);
+            pdc.setString(2, p.getCODIGO_PRODUCTO());
+            pdc.setDouble(3, p.getMINIMO_STOCK());
+            
 
             ps.executeUpdate();
             pa.executeUpdate();
+            poc.executeUpdate();
+            pdc.executeUpdate();
             return true;
 
         } catch (SQLException e) {
@@ -137,4 +164,30 @@ public class InventarioDAO {
             return false;
         }
     }
+        public String generarCodigoNuevaOrdenCompra(Connection conn) {
+    String nuevoCodigo = "OC001"; // Valor por defecto si no hay facturas
+    String sql = "SELECT NUMERO_ORDEN FROM orden_compra ORDER BY NUMERO_ORDEN DESC LIMIT 1;";
+
+    try (PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        if (rs.next()) {
+            String ultimoCodigo = rs.getString("NUMERO_ORDEN"); // Ej: FA023
+            // Extraer la parte numérica
+            String numeroStr = ultimoCodigo.substring(2); // "023"
+            int numero = Integer.parseInt(numeroStr);
+            numero++; // Incrementar
+            // Formatear con ceros a la izquierda
+            String numeroFormateado = String.format("%03d", numero);
+            nuevoCodigo = "OC" + numeroFormateado; // Ej: FA024
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return nuevoCodigo;
+}
+
+    
 }
