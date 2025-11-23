@@ -40,6 +40,8 @@ com\bodegapp\personal\model\PersonalModel.class
 com\bodegapp\dashboard\dao\AlertasDAO.class
 com\bodegapp\empresa\service\EmpresaService.class
 com\bodegapp\personal\service\PersonalService.class
+com\bodegapp\proveedor\dao\ProveedorDAO.class
 com\bodegapp\vendedor\model\VentaRecienteModel.class
 com\bodegapp\dashboard\service\AlertasService.class
+com\bodegapp\proveedor\model\ProveedorModel.class
 com\bodegapp\vendedor\model\NuevoDetalleVentaDTO.class

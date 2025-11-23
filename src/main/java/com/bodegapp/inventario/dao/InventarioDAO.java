@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.bodegapp.inventario.model.InventarioModel;
 import com.bodegapp.core.database.ConexionBD;
+import com.bodegapp.proveedor.model.ProveedorModel;
 
 public class InventarioDAO {
 
@@ -105,7 +106,7 @@ public class InventarioDAO {
         return lista;
     }
 
-    public boolean registrar(InventarioModel p) {
+    public boolean registrar(InventarioModel p, ProveedorModel prv) {
         String sql = "INSERT INTO productos (CODIGO_PRODUCTO, DESCRIPCION_PRODUCTO, PRECIO_PRODUCTO, SACO_PRODUCTO, MINIMO_STOCK, UNIDAD_PRODUCTO, LINEA_PRODUCTO, IMPUESTO_PRODUCTO) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         String abastecimientoSQL = "INSERT INTO abastecimiento ( CODIGO_PRODUCTO, CODIGO_PROVEEDOR, PRECIO_ABASTECIMIENTO) VALUES (?, ?, ?)";
 
@@ -121,8 +122,13 @@ public class InventarioDAO {
             ps.setString(6, p.getUNIDAD_PRODUCTO());
             ps.setString(7, p.getLINEA_PRODUCTO());
             ps.setString(8, p.getIMPUESTO_PRODUCTO());
+            
+            pa.setString(1, p.getCODIGO_PRODUCTO());
+            pa.setString(2, prv.getCODIGO_PROVEEDOR());
+            pa.setDouble(3, p.getPRECIO_PRODUCTO());
 
             ps.executeUpdate();
+            pa.executeUpdate();
             return true;
 
         } catch (SQLException e) {

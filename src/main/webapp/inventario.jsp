@@ -73,8 +73,10 @@
         <h1>Inventario</h1>
         
         <div class="header-actions">
-            <a href="agregarProducto.jsp" class="btn btn-primary">+ Agregar Producto</a>
-            
+            <a href="<%= request.getContextPath() %>/InventarioController?accion=nuevo" 
+            class="btn btn-primary">
+             + Agregar Producto
+            </a>
             <form method="get" action="<%= request.getContextPath() %>/InventarioController" class="search-form">
                 <div class="search-container">
                     <input type="text" 

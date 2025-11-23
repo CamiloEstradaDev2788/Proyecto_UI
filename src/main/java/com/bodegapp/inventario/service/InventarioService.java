@@ -4,6 +4,7 @@ import java.util.List;
 import com.bodegapp.inventario.dao.InventarioDAO;
 import com.bodegapp.inventario.model.InventarioModel;
 import com.bodegapp.usuarios.model.UsuarioModel;
+import com.bodegapp.proveedor.model.ProveedorModel;
 
 public class InventarioService {
     InventarioDAO dao = new InventarioDAO();
@@ -12,8 +13,8 @@ public class InventarioService {
         return dao.listar(idEmpresa1);
     }
 
-    public boolean registrar(InventarioModel p) {
-        return dao.registrar(p);
+    public boolean registrar(InventarioModel p, ProveedorModel prv) {
+        return dao.registrar(p, prv);
     }
 
     public List<InventarioModel> buscar(String criterio) {

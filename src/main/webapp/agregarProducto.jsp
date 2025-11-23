@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.bodegapp.usuarios.model.UsuarioModel" %>
+<%@ page import="com.bodegapp.proveedor.model.ProveedorModel" %>
+<%@ page import="java.util.List" %>
 
 <%
     HttpSession sesion = request.getSession(false);
@@ -9,6 +11,8 @@
     }
 
     UsuarioModel usuario = (UsuarioModel) sesion.getAttribute("usuario");
+
+    List<ProveedorModel> proveedores = (List<ProveedorModel>) request.getAttribute("listaProveedores");
     String error = (String) request.getAttribute("error");
 %>
 
@@ -21,57 +25,79 @@
     <!-- ICONOS -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
 
-    <!-- ESTILOS -->
+    <!-- ESTILOS GENERALES -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assest/styles/styles.css">
-    
+
     <style>
-        .form-container {
+        .form-card {
             background: var(--color-white);
-            padding: var(--card-padding);
-            border-radius: var(--card-border-radius);
-            margin-top: 1rem;
+            padding: 2rem;
+            border-radius: 1rem;
             box-shadow: var(--box-shadow);
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--color-dark);
-            font-weight: 500;
-        }
-        
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid var(--color-light);
-            border-radius: var(--border-radius-1);
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: var(--color-primary);
-            outline: none;
-        }
-        
-        .form-actions {
-            display: flex;
-            gap: 1rem;
             margin-top: 2rem;
+            width: 100%;
         }
-        
+        .form-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-dark);
+        }
+        .row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-weight: 600;
+            color: var(--color-dark);
+            margin-bottom: .5rem;
+        }
+        .form-group input, .form-group select {
+            padding: .9rem;
+            border: 1px solid var(--color-light);
+            border-radius: .6rem;
+            background: var(--color-white);
+            transition: .3s ease;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--color-primary);
+        }
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+            padding: .9rem 1.5rem;
+            border-radius: .6rem;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            transition: .3s ease;
+        }
+        .btn-primary:hover {
+            background: var(--color-primary-variant);
+        }
+        .btn-secondary {
+            background: var(--color-light);
+            padding: .9rem 1.5rem;
+            border-radius: .6rem;
+            color: var(--color-dark);
+            text-decoration: none;
+            font-weight: bold;
+        }
         .error-message {
-            background-color: var(--color-danger);
+            background: var(--color-danger);
             color: white;
             padding: 1rem;
-            border-radius: var(--border-radius-1);
+            border-radius: .6rem;
             margin-bottom: 1rem;
+        }
+        .form-actions {
+            margin-top: 1.8rem;
+            display: flex;
+            gap: 1rem;
         }
     </style>
 </head>
@@ -116,11 +142,6 @@
                 <h3>Ventas</h3>
             </a>
 
-            <a href="#">
-                <span class="material-symbols-sharp">finance_mode</span>
-                <h3>Analíticas</h3>
-            </a>
-
             <a href="logout">
                 <span class="material-symbols-sharp">logout</span>
                 <h3>Logout</h3>
@@ -131,86 +152,84 @@
     <!-- ============ MAIN ============ -->
     <main>
         <h1>Agregar Producto</h1>
-        
+
         <% if (error != null) { %>
-            <div class="error-message">
-                <%= error %>
-            </div>
+            <div class="error-message"><%= error %></div>
         <% } %>
 
-        <div class="form-container">
+        <div class="form-card">
+
             <form action="<%= request.getContextPath() %>/InventarioController" method="post">
-                <div class="form-group">
-                    <label for="codigo_producto">Código del Producto *</label>
-                    <input type="text" id="codigo_producto" name="codigo_producto" required>
-                </div>
 
-                <div class="form-group">
-                    <label for="descripcion_producto">Descripción del Producto *</label>
-                    <input type="text" id="descripcion_producto" name="descripcion_producto" required>
-                </div>
+                <h2 class="form-title">Datos del Producto</h2>
 
-                <div class="form-group">
-                    <label for="precio_producto">Precio del Producto *</label>
-                    <input type="number" id="precio_producto" name="precio_producto" step="0.01" min="0" required>
-                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Código *</label>
+                        <input type="text" name="codigo_producto" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="saco_producto">Cantidad en Sacos *</label>
-                    <input type="number" id="saco_producto" name="saco_producto" min="0" required>
-                </div>
+                    <div class="form-group">
+                        <label>Descripción *</label>
+                        <input type="text" name="descripcion_producto" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="minimo_stock">Stock Mínimo *</label>
-                    <input type="number" id="minimo_stock" name="minimo_stock" min="0" required>
-                </div>
+                    <div class="form-group">
+                        <label>Precio *</label>
+                        <input type="number" name="precio_producto" step="0.01" min="0" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="unidad_producto">Unidad del Producto *</label>
-                    <input type="text" id="unidad_producto" name="unidad_producto" required>
-                </div>
+                    <div class="form-group">
+                        <label>Sacos *</label>
+                        <input type="number" name="saco_producto" min="0" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="linea_producto">Línea del Producto *</label>
-                    <input type="text" id="linea_producto" name="linea_producto" required>
-                </div>
+                    <div class="form-group">
+                        <label>Stock mínimo *</label>
+                        <input type="number" name="minimo_stock" min="0" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="impuesto_producto">Impuesto del Producto *</label>
-                    <input type="text" id="impuesto_producto" name="impuesto_producto" required>
+                    <div class="form-group">
+                        <label>Unidad *</label>
+                        <input type="text" name="unidad_producto" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Línea *</label>
+                        <input type="text" name="linea_producto" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Impuesto *</label>
+                        <input type="text" name="impuesto_producto" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Proveedor *</label>
+                        <select name="codigoProveedor" required>
+                            <option value="">Seleccione un proveedor</option>
+
+                            <% if (proveedores != null) { 
+                                   for (ProveedorModel p : proveedores) { %>
+                                <option value="<%= p.getCODIGO_PROVEEDOR() %>">
+                                    <%= p.getREPRESENTANTE_PROVEEDOR() %>
+                                </option>
+                            <% }} %>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Guardar Producto</button>
-                    <a href="<%= request.getContextPath() %>/InventarioController" class="btn">Cancelar</a>
+                    <button type="submit" class="btn-primary">Guardar</button>
+                    <a href="<%= request.getContextPath() %>/InventarioController" class="btn-secondary">Cancelar</a>
                 </div>
+
             </form>
+
         </div>
+
     </main>
-
-    <!-- ============ RIGHT PANEL ============ -->
-    <div class="right">
-        <div class="top">
-            <button id="menu-btn">
-                <span class="material-symbols-sharp">menu</span>
-            </button>
-
-            <div class="theme-toggler">
-                <span class="material-symbols-sharp active">light_mode</span>
-                <span class="material-symbols-sharp">dark_mode</span>
-            </div>
-
-            <div class="profile">
-                <div class="info">
-                    <p>Hola, <b><%= usuario.getNOMBRE1() %></b></p>
-                    <small class="text-muted">Admin</small>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 </body>
 </html>
-
