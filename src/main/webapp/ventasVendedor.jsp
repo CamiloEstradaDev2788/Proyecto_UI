@@ -89,7 +89,7 @@
     <!-- ============ MAIN ============ -->
     <main>
         <div class="header-actions">
-            <h1>Ventas de <%= vendedor != null ? vendedor.getNOMBRE_COMPLETO() : "Vendedor" %></h1>
+            <h1>Ventas de <%= vendedor != null ? vendedor.getNOMBRE1()+" "+vendedor.getAPELLIDO1() : "Vendedor" %></h1>
             <a href="<%= request.getContextPath() %>/PersonalController" class="btn btn-primary">
                 <span class="material-symbols-sharp" style="font-size: 1rem; vertical-align: middle;">arrow_back</span>
                 Volver a Personal
@@ -100,7 +100,7 @@
         <div class="vendedor-info">
             <div class="info-card">
                 <h3>Información del Vendedor</h3>
-                <p><strong>Cargo:</strong> <%= vendedor.getCARGO() %></p>
+                <p><strong>Cargo:</strong> <%= vendedor.getID_ROL() %></p>
                 <p><strong>Código Vendedor:</strong> <%= vendedor.getCODIGO_VENDEDOR() %></p>
                 <p><strong>Total de Ventas:</strong> <span class="total-sales">$<%= String.format("%.2f", totalVentas) %></span></p>
             </div>
