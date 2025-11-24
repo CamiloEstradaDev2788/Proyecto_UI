@@ -114,23 +114,24 @@
 
         <div class="sidebar">
             <a href="<%= request.getContextPath() %>/dashboard">
-                <span class="material-symbols-sharp">dashboard</span>
-                <h3>Dashboard</h3>
-            </a>
-
-            <a href="<%= request.getContextPath() %>/ClientesController" class="active">
-                <span class="material-symbols-sharp">groups</span>
-                <h3>Clientes</h3>
-            </a>
-
-            <a href="<%= request.getContextPath() %>/InventarioController">
-                <span class="material-symbols-sharp">inventory</span>
-                <h3>Inventario</h3>
-            </a>
-
+                    <span class="material-symbols-sharp">dashboard</span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="<%= request.getContextPath() %>/InventarioController">
+                    <span class="material-symbols-sharp">inventory</span>
+                    <h3>Inventario</h3>
+                </a>
             <a href="<%= request.getContextPath() %>/PersonalController">
                 <span class="material-symbols-sharp">person</span>
                 <h3>Personal</h3>
+            </a>
+                <a href="<%= request.getContextPath() %>/ClientesController" class="active">
+                <span class="material-symbols-sharp">groups</span>
+                <h3>Clientes</h3>
+            </a>
+                <a href="<%= request.getContextPath() %>/DistritoController">
+                <span class="material-symbols-sharp">location_city</span>
+                <h3>Distritos</h3>
             </a>
 
             <a href="logout">

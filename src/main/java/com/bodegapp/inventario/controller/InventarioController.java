@@ -34,11 +34,30 @@ public class InventarioController extends HttpServlet {
         int idEmpresa = usuario.getID_EMPRESA();
         String accion = rq.getParameter("accion");
         String buscar = rq.getParameter("buscar");
+        String codigo = rq.getParameter("codigo");
 
-        // ========= FORMULARIO NUEVO =========
-        if ("nuevo".equals(accion)) {
-            cargarFormularioNuevoProducto(rq, rs, idEmpresa);
-            return;
+        switch (accion != null ? accion : "") {
+            case "nuevo":
+                cargarFormularioNuevoProducto(rq, rs, idEmpresa);
+                return;
+
+            case "editar":
+                if (codigo != null) {
+                    InventarioModel producto = service.obtenerProducto(codigo);
+                    List<ProveedorModel> proveedores = proveedorDAO.listarProveedores(idEmpresa);
+                    rq.setAttribute("producto", producto);
+                    rq.setAttribute("listaProveedores", proveedores);
+                    rq.getRequestDispatcher("editarProducto.jsp").forward(rq, rs);
+                    return;
+                }
+                break;
+
+            case "eliminar":
+                if (codigo != null) {
+                    service.eliminarProducto(codigo);
+                }
+                rs.sendRedirect("InventarioController");
+                return;
         }
 
         // ========= LISTAR =========
@@ -49,7 +68,6 @@ public class InventarioController extends HttpServlet {
 
         rq.setAttribute("listaInventario", lista);
         rq.setAttribute("criterioBusqueda", buscar != null ? buscar : "");
-
         rq.getRequestDispatcher("inventario.jsp").forward(rq, rs);
     }
 
@@ -66,6 +84,7 @@ public class InventarioController extends HttpServlet {
         }
 
         int idEmpresa = usuario.getID_EMPRESA();
+        String accion = rq.getParameter("accion");
 
         try {
             // ========= PRODUCTO =========
@@ -90,14 +109,22 @@ public class InventarioController extends HttpServlet {
             ProveedorModel proveedor = new ProveedorModel();
             proveedor.setCODIGO_PROVEEDOR(proveedorParam);
 
-            // ========= INSERTAR =========
-            boolean registrado = service.registrar(producto, proveedor);
-
-            if (registrado) {
-                rs.sendRedirect("InventarioController");
-            } else {
-                rq.setAttribute("error", "No se pudo registrar el producto.");
-                recargarFormularioConError(rq, rs, idEmpresa);
+            if ("insertar".equals(accion)) {
+                boolean registrado = service.registrar(producto, proveedor);
+                if (registrado) {
+                    rs.sendRedirect("InventarioController");
+                } else {
+                    rq.setAttribute("error", "No se pudo registrar el producto.");
+                    recargarFormularioConError(rq, rs, idEmpresa);
+                }
+            } else if ("actualizar".equals(accion)) {
+                boolean actualizado = service.actualizarProducto(producto);
+                if (actualizado) {
+                    rs.sendRedirect("InventarioController");
+                } else {
+                    rq.setAttribute("error", "No se pudo actualizar el producto.");
+                    recargarFormularioConError(rq, rs, idEmpresa);
+                }
             }
 
         } catch (Exception e) {
@@ -110,18 +137,14 @@ public class InventarioController extends HttpServlet {
     // ======================================================
     private void cargarFormularioNuevoProducto(HttpServletRequest rq, HttpServletResponse rs, int idEmpresa)
             throws ServletException, IOException {
-
         List<ProveedorModel> proveedores = proveedorDAO.listarProveedores(idEmpresa);
-
         rq.setAttribute("listaProveedores", proveedores);
         rq.getRequestDispatcher("agregarProducto.jsp").forward(rq, rs);
     }
 
     private void recargarFormularioConError(HttpServletRequest rq, HttpServletResponse rs, int idEmpresa)
             throws ServletException, IOException {
-
         List<ProveedorModel> proveedores = proveedorDAO.listarProveedores(idEmpresa);
-
         rq.setAttribute("listaProveedores", proveedores);
         rq.getRequestDispatcher("agregarProducto.jsp").forward(rq, rs);
     }

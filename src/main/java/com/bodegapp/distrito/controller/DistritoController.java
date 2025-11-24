@@ -28,50 +28,60 @@ public class DistritoController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest rq, HttpServletResponse rs)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String accion = rq.getParameter("accion");
+        String accion = request.getParameter("accion");
 
         try {
             if ("nuevo".equals(accion)) {
-                rq.getRequestDispatcher("distritoNuevo.jsp").forward(rq, rs);
+                // Mostrar formulario para agregar
+                request.getRequestDispatcher("AgregarDistrito.jsp").forward(request, response);
             } else if ("editar".equals(accion)) {
-                String codigo = rq.getParameter("codigo");
-                DistritoModel distrito = service.obtenerDistrito(codigo);
-                rq.setAttribute("distrito", distrito);
-                rq.getRequestDispatcher("distritoEditar.jsp").forward(rq, rs);
+                // Mostrar formulario para editar
+                String codigo = request.getParameter("id");
+                if (codigo != null) {
+                    DistritoModel distrito = service.obtenerDistrito(codigo);
+                    request.setAttribute("distrito", distrito);
+                    request.getRequestDispatcher("editarDistrito.jsp").forward(request, response);
+                } else {
+                    response.sendRedirect("DistritoController");
+                }
             } else if ("eliminar".equals(accion)) {
-                String codigo = rq.getParameter("codigo");
-                service.eliminarDistrito(codigo);
-                rs.sendRedirect("DistritoController");
+                // Eliminar distrito
+                String codigo = request.getParameter("id");
+                if (codigo != null) {
+                    service.eliminarDistrito(codigo);
+                }
+                response.sendRedirect("DistritoController");
             } else {
+                // Listado por defecto
                 List<DistritoModel> lista = service.listarDistritos();
-                rq.setAttribute("listaDistritos", lista);
-                rq.getRequestDispatcher("distritoListar.jsp").forward(rq, rs);
+                request.setAttribute("listaDistritos", lista);
+                request.getRequestDispatcher("distritosLista.jsp").forward(request, response);
             }
         } catch (SQLException e) {
-            throw new ServletException(e);
+            throw new ServletException("Error al procesar DistritoController", e);
         }
     }
 
     @Override
-    protected void doPost(HttpServletRequest rq, HttpServletResponse rs)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
 
-        String codigo = rq.getParameter("codigoDistrito");
-        String nombre = rq.getParameter("nombreDistrito");
+        String accion = request.getParameter("accion"); // insert o actualizar
+        String codigo = request.getParameter("codigoDistrito");
+        String nombre = request.getParameter("nombreDistrito");
 
         DistritoModel distrito = new DistritoModel(codigo, nombre);
 
         try {
-            String accion = rq.getParameter("accion");
-            if ("agregar".equals(accion)) {
+            if ("insertar".equals(accion)) {
                 service.agregarDistrito(distrito);
             } else if ("actualizar".equals(accion)) {
                 service.actualizarDistrito(distrito);
             }
-            rs.sendRedirect("DistritoController");
+            response.sendRedirect("DistritoController");
         } catch (SQLException e) {
             throw new ServletException(e);
         }

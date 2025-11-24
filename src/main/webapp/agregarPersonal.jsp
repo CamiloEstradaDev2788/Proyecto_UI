@@ -4,6 +4,12 @@
 <%@ page import="com.bodegapp.distrito.model.DistritoModel" %>
 
 <%
+    HttpSession sesion = request.getSession(false);
+    if (sesion == null || sesion.getAttribute("usuario") == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+
     List<RolModel> roles = (List<RolModel>) request.getAttribute("roles");
     List<DistritoModel> distritos = (List<DistritoModel>) request.getAttribute("distritos");
     String error = (String) request.getAttribute("error");
@@ -14,10 +20,136 @@
 <head>
     <meta charset="UTF-8">
     <title>Agregar Personal</title>
+
+    <!-- ICONOS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
+
+    <!-- ESTILOS GENERALES -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assest/styles/styles.css">
+
+    <style>
+        .form-card {
+            background: var(--color-white);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--box-shadow);
+            margin-top: 2rem;
+            width: 100%;
+        }
+        .form-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-dark);
+        }
+        .row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-weight: 600;
+            color: var(--color-dark);
+            margin-bottom: .5rem;
+        }
+        .form-group input, .form-group select {
+            padding: .9rem;
+            border: 1px solid var(--color-light);
+            border-radius: .6rem;
+            background: var(--color-white);
+            transition: .3s ease;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--color-primary);
+        }
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+            padding: .9rem 1.5rem;
+            border-radius: .6rem;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            transition: .3s ease;
+        }
+        .btn-primary:hover {
+            background: var(--color-primary-variant);
+        }
+        .btn-secondary {
+            background: var(--color-light);
+            padding: .9rem 1.5rem;
+            border-radius: .6rem;
+            color: var(--color-dark);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .error-message {
+            background: var(--color-danger);
+            color: white;
+            padding: 1rem;
+            border-radius: .6rem;
+            margin-bottom: 1rem;
+        }
+        .form-actions {
+            margin-top: 1.8rem;
+            display: flex;
+            gap: 1rem;
+        }
+        #seccionVendedor {
+            margin-top: 1rem;
+            border: 1px solid #eee;
+            padding: 1rem;
+            border-radius: .6rem;
+        }
+    </style>
 </head>
 <body>
+
 <div class="container">
+
+    <!-- ============ ASIDE ============ -->
+    <aside>
+        <div class="top">
+            <div class="logo">
+                <img src="65844.png" alt="logo">
+            </div>
+            <div class="close" id="close-btn">
+                <span class="material-symbols-sharp">close</span>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <a href="<%= request.getContextPath() %>/dashboard.jsp" >
+                    <span class="material-symbols-sharp">dashboard</span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="<%= request.getContextPath() %>/InventarioController">
+                    <span class="material-symbols-sharp">inventory</span>
+                    <h3>Inventario</h3>
+                </a>
+            <a href="<%= request.getContextPath() %>/PersonalController" class="active">
+                <span class="material-symbols-sharp">person</span>
+                <h3>Personal</h3>
+            </a>
+                <a href="<%= request.getContextPath() %>/ClientesController">
+                <span class="material-symbols-sharp">groups</span>
+                <h3>Clientes</h3>
+            </a>
+                <a href="<%= request.getContextPath() %>/DistritoController">
+                <span class="material-symbols-sharp">location_city</span>
+                <h3>Distritos</h3>
+            </a>
+            <a href="logout">
+                <span class="material-symbols-sharp">logout</span>
+                <h3>Logout</h3>
+            </a>
+        </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
     <main>
         <h1>Agregar Personal</h1>
 
@@ -25,99 +157,109 @@
             <div class="error-message"><%= error %></div>
         <% } %>
 
-        <form action="PersonalController" method="post">
-            <input type="hidden" name="accion" value="insertar">
-            <input type="hidden" id="esVendedorInput" name="es_vendedor" value="false">
+        <div class="form-card">
 
-            <div class="row">
-                <!-- Rol -->
-                <div class="form-group">
-                    <label>Rol</label>
-                    <select name="id_rol" id="rolSelect" required>
-                        <option value="">Seleccione rol</option>
-                        <% if (roles != null) {
-                               for (RolModel r: roles) { %>
-                            <option value="<%= r.getID_ROL() %>" data-vendedor="<%= r.getNOMBRE_ROL().equalsIgnoreCase("Vendedor") ? "true" : "false" %>">
-                                <%= r.getNOMBRE_ROL() %>
-                            </option>
-                        <% } } %>
-                    </select>
+            <form action="PersonalController" method="post">
+                <input type="hidden" name="accion" value="insertar">
+                <input type="hidden" id="esVendedorInput" name="es_vendedor" value="false">
+
+                <h2 class="form-title">Datos del Personal</h2>
+
+                <div class="row">
+                    <!-- Rol -->
+                    <div class="form-group">
+                        <label>Rol *</label>
+                        <select name="id_rol" id="rolSelect" required>
+                            <option value="">Seleccione rol</option>
+                            <% if (roles != null) {
+                                for (RolModel r : roles) { %>
+                                    <option value="<%= r.getID_ROL() %>" data-vendedor="<%= r.getNOMBRE_ROL().equalsIgnoreCase("Vendedor") ? "true" : "false" %>">
+                                        <%= r.getNOMBRE_ROL() %>
+                                    </option>
+                            <%  } } %>
+                        </select>
+                    </div>
+
+                    <!-- Datos personales -->
+                    <div class="form-group">
+                        <label>Nombre 1 *</label>
+                        <input type="text" name="nombre1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre 2</label>
+                        <input type="text" name="nombre2">
+                    </div>
+                    <div class="form-group">
+                        <label>Apellido 1 *</label>
+                        <input type="text" name="apellido1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Apellido 2</label>
+                        <input type="text" name="apellido2">
+                    </div>
+                    <div class="form-group">
+                        <label>Cédula *</label>
+                        <input type="text" name="cedula" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Correo *</label>
+                        <input type="email" name="correo" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña *</label>
+                        <input type="password" name="contrasena" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Salario *</label>
+                        <input type="number" step="0.01" name="salario" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo contrato *</label>
+                        <input type="text" name="tipo_contrato" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <select name="estado">
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+                    </div>
                 </div>
 
-                <!-- Datos personales -->
-                <div class="form-group">
-                    <label>Nombre 1</label>
-                    <input type="text" name="nombre1" required>
+                <!-- Sección Vendedor -->
+                <div id="seccionVendedor" style="display:none;">
+                    <h3>Datos de Vendedor</h3>
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Código vendedor (opcional)</label>
+                            <input type="text" name="codigo_vendedor">
+                        </div>
+                        <div class="form-group">
+                            <label>Distrito</label>
+                            <select name="codigo_distrito">
+                                <option value="">Seleccione distrito</option>
+                                <% if (distritos != null) {
+                                    for (DistritoModel d : distritos) { %>
+                                        <option value="<%= d.getCodigoDistrito() %>"><%= d.getNombreDistrito() %></option>
+                                <%  } } %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo vendedor</label>
+                            <input type="text" name="tipo_vendedor">
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Nombre 2</label>
-                    <input type="text" name="nombre2">
-                </div>
-                <div class="form-group">
-                    <label>Apellido 1</label>
-                    <input type="text" name="apellido1" required>
-                </div>
-                <div class="form-group">
-                    <label>Apellido 2</label>
-                    <input type="text" name="apellido2">
-                </div>
-                <div class="form-group">
-                    <label>Cédula</label>
-                    <input type="text" name="cedula" required>
-                </div>
-                <div class="form-group">
-                    <label>Correo</label>
-                    <input type="email" name="correo" required>
-                </div>
-                <div class="form-group">
-                    <label>Contraseña</label>
-                    <input type="password" name="contrasena" required>
-                </div>
-                <div class="form-group">
-                    <label>Salario</label>
-                    <input type="number" step="0.01" name="salario" required>
-                </div>
-                <div class="form-group">
-                    <label>Tipo contrato</label>
-                    <input type="text" name="tipo_contrato" required>
-                </div>
-                <div class="form-group">
-                    <label>Estado</label>
-                    <select name="estado">
-                        <option value="true">Activo</option>
-                        <option value="false">Inactivo</option>
-                    </select>
-                </div>
-            </div>
 
-            <!-- Sección Vendedor -->
-            <div id="seccionVendedor" style="display:none; margin-top:1rem; border:1px solid #eee; padding:1rem;">
-                <h3>Datos de Vendedor</h3>
-                <div class="form-group">
-                    <label>Código vendedor (opcional)</label>
-                    <input type="text" name="codigo_vendedor">
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Guardar</button>
+                    <a href="PersonalController" class="btn-secondary">Cancelar</a>
                 </div>
-                <div class="form-group">
-                    <label>Distrito</label>
-                    <select name="codigo_distrito">
-                        <option value="">Seleccione distrito</option>
-                        <% if (distritos != null) {
-                               for (DistritoModel d : distritos) { %>
-                            <option value="<%= d.getCodigoDistrito()%>"><%= d.getNombreDistrito()%></option>
-                        <% } } %>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Tipo vendedor</label>
-                    <input type="text" name="tipo_vendedor">
-                </div>
-            </div>
 
-            <div class="form-actions" style="margin-top:1rem;">
-                <button type="submit" class="btn-primary">Guardar</button>
-                <a href="PersonalController" class="btn-secondary">Cancelar</a>
-            </div>
-        </form>
+            </form>
+
+        </div>
+
     </main>
 </div>
 
@@ -130,11 +272,12 @@
         const opcion = rolSelect.selectedOptions[0];
         const esVendedor = opcion.getAttribute('data-vendedor') === 'true';
         seccionVendedor.style.display = esVendedor ? 'block' : 'none';
-        esVendedorInput.value = esVendedor; // Actualiza hidden input
+        esVendedorInput.value = esVendedor;
     }
 
     rolSelect.addEventListener('change', actualizarSeccionVendedor);
     window.onload = actualizarSeccionVendedor;
 </script>
+
 </body>
 </html>

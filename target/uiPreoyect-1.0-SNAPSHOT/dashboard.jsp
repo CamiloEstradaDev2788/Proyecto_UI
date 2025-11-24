@@ -58,8 +58,12 @@
                 <h3>Personal</h3>
             </a>
                 <a href="<%= request.getContextPath() %>/ClientesController">
-                <span class="material-symbols-sharp">person</span>
+                <span class="material-symbols-sharp">groups</span>
                 <h3>Clientes</h3>
+            </a>
+                <a href="<%= request.getContextPath() %>/DistritoController">
+                <span class="material-symbols-sharp">location_city</span>
+                <h3>Distritos</h3>
             </a>
             
                 <a href="logout">
@@ -143,7 +147,7 @@
 </tbody>
 
                     </table>
-                    <a href="#">Mostrar todo</a>
+                    <a href="/InventarioController">Mostrar todo</a>
                 </div>
                 <!------------------Fin productos recientes------------------------>
         </main>

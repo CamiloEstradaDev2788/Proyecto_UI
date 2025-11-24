@@ -14,13 +14,15 @@ public class PersonalDAO {
     public List<PersonalModel> listar(int idEmpresa) {
         List<PersonalModel> lista = new ArrayList<>();
         String sql = "SELECT u.ID_USER, u.ID_EMPRESA, u.ID_ROL, u.NOMBRE1, u.NOMBRE2, u.APELLIDO1, u.APELLIDO2, " +
-                     "u.CEDULA, u.CORREO, u.SALARIO, u.TIPO_CONTRATO, u.ESTADO, r.NOMBRE_ROL, " +
-                     "CASE WHEN v.CODIGO_VENDEDOR IS NOT NULL THEN 1 ELSE 0 END AS ES_VENDEDOR, v.CODIGO_VENDEDOR " +
-                     "FROM usuarios u " +
-                     "LEFT JOIN roles r ON r.ID_ROL = u.ID_ROL " +
-                     "LEFT JOIN vendedores v ON v.ID_USER = u.ID_USER " +
-                     "WHERE u.ID_EMPRESA = ? " +
-                     "ORDER BY u.NOMBRE1, u.APELLIDO1";
+             "u.CEDULA, u.CORREO, u.SALARIO, u.TIPO_CONTRATO, u.ESTADO, r.NOMBRE_ROL, " +
+             "CASE WHEN v.CODIGO_VENDEDOR IS NOT NULL THEN 1 ELSE 0 END AS ES_VENDEDOR, v.CODIGO_VENDEDOR " +
+             "FROM usuarios u " +
+             "LEFT JOIN roles r ON r.ID_ROL = u.ID_ROL " +
+             "LEFT JOIN vendedores v ON v.ID_USER = u.ID_USER " +
+             "WHERE u.ID_EMPRESA = ? " +
+             "AND u.ESTADO = 1 " +   // 🔥 SOLO ACTIVOS
+             "ORDER BY u.NOMBRE1, u.APELLIDO1";
+
 
         try (Connection con = ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -264,27 +266,24 @@ public class PersonalDAO {
 
     // ELIMINAR USUARIO (+ VENDEDOR)
     public boolean eliminar(int idUser) {
-        String deleteV = "DELETE FROM vendedores WHERE ID_USER = ?";
-        String deleteU = "DELETE FROM usuarios WHERE ID_USER = ?";
+    String updateU = "UPDATE usuarios SET estado = 0 WHERE ID_USER = ?";
 
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement pv = con.prepareStatement(deleteV);
-             PreparedStatement pu = con.prepareStatement(deleteU)) {
+    try (Connection con = ConexionBD.getConexion();
+         PreparedStatement pu = con.prepareStatement(updateU)) {
 
-            con.setAutoCommit(false);
+        con.setAutoCommit(false);
 
-            pv.setInt(1, idUser);
-            pv.executeUpdate();
+        // Desactivar usuario
+        pu.setInt(1, idUser);
+        pu.executeUpdate();
 
-            pu.setInt(1, idUser);
-            pu.executeUpdate();
+        con.commit();
+        return true;
 
-            con.commit();
-            return true;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
     }
+}
+
 }

@@ -46,15 +46,21 @@
                 <span class="material-symbols-sharp">dashboard</span>
                 <h3>Dashboard</h3>
             </a>
-
             <a href="<%= request.getContextPath() %>/InventarioController">
                 <span class="material-symbols-sharp">inventory</span>
                 <h3>Inventario</h3>
             </a>
-
             <a href="<%= request.getContextPath() %>/PersonalController" class="active">
                 <span class="material-symbols-sharp">person</span>
                 <h3>Personal</h3>
+            </a>
+            <a href="<%= request.getContextPath() %>/ClientesController">
+                <span class="material-symbols-sharp">groups</span>
+                <h3>Clientes</h3>
+            </a>
+            <a href="<%= request.getContextPath() %>/DistritoController">
+                <span class="material-symbols-sharp">location_city</span>
+                <h3>Distritos</h3>
             </a>
 
             <a href="logout">
@@ -68,65 +74,89 @@
     <main>
         <h1>Personal de la Empresa</h1>
 
-<!-- BOTÓN AGREGAR PERSONAL -->
-<div style="margin-bottom: 15px; text-align: right;">
-    <a href="<%= request.getContextPath() %>/PersonalController?accion=agregar">
-        <button type="button" class="btn-add">
-            <span class="material-symbols-sharp">person_add</span> Agregar Personal
-        </button>
-    </a>
-</div>
+        <!-- BOTÓN AGREGAR PERSONAL -->
+        <div style="margin-bottom: 15px; text-align: right;">
+            <a href="<%= request.getContextPath() %>/PersonalController?accion=agregar">
+                <button type="button" class="btn-add">
+                    <span class="material-symbols-sharp">person_add</span> Agregar Personal
+                </button>
+            </a>
+        </div>
 
-<div class="table-container">
-    <table class="styled-table" style="border-collapse: separate !important; border-spacing: 0 !important;">
-        <thead>
-        <tr>
-            <th>Nombre Completo</th>
-            <th>Cargo</th>
-            <th>Salario</th>
-            <th>Tipo Contrato</th>
-            <th>Estado</th>
-            <th style="text-align: center;">Acciones</th>
-        </tr>
-        </thead>
+        <div class="table-container">
+            <table class="styled-table" style="border-collapse: separate !important; border-spacing: 0 !important;">
+                <thead>
+                <tr>
+                    <th>Nombre Completo</th>
+                    <th>Cargo</th>
+                    <th>Salario</th>
+                    <th>Tipo Contrato</th>
+                    <th>Estado</th>
+                    <th style="text-align: center;">Acciones</th>
+                </tr>
+                </thead>
 
-        <tbody>
-        <% if (lista == null || lista.isEmpty()) { %>
-            <tr>
-                <td colspan="6" class="no-records">No hay personal registrado...</td>
-            </tr>
-        <% } else {
-               for (PersonalModel personal : lista) { %>
-            <tr>
-                <td class="name-cell"><%= personal.getNOMBRE1()+" "+personal.getAPELLIDO1()%></td>
-                <td class="role-cell">
-                    <span class="role-badge"><%= personal.getID_ROL()%></span>
-                </td>
-                <td class="salary-cell">$<%= String.format("%.2f", personal.getSALARIO())%></td>
-                <td class="contract-cell"><%= personal.getTIPO_CONTRATO()%></td>
-                <td class="status-cell">
-                    <span class="status-badge <%= personal.isESTADO() ? "active" : "inactive" %>">
-                        <%= personal.isESTADO() ? "Activo" : "Inactivo" %>
-                    </span>
-                </td>
-                <td class="action-buttons">
-                    <% if (personal.isES_VENDEDOR() && personal.getCODIGO_VENDEDOR() != null) { %>
-                        <a class="icon-btn sales-btn" 
-                           href="<%= request.getContextPath() %>/PersonalController?accion=verVentas&idVendedor=<%= personal.getID_USER() %>"
-                           title="Ver ventas">
-                            <span class="material-symbols-sharp">trending_up</span>
-                        </a>
-                    <% } else { %>
-                        <span class="icon-btn disabled-btn" title="No es vendedor">
-                            <span class="material-symbols-sharp">block</span>
-                        </span>
-                    <% } %>
-                </td>
-            </tr>
-        <% } } %>
-        </tbody>
-    </table>
-</div>
+                <tbody>
+                <% if (lista == null || lista.isEmpty()) { %>
+                    <tr>
+                        <td colspan="6" class="no-records">No hay personal registrado...</td>
+                    </tr>
+                <% } else {
+                       for (PersonalModel personal : lista) { %>
+
+                    <tr>
+                        <td class="name-cell"><%= personal.getNOMBRE1() + " " + personal.getAPELLIDO1() %></td>
+
+                        <td class="role-cell">
+                            <span class="role-badge"><%= personal.getID_ROL() %></span>
+                        </td>
+
+                        <td class="salary-cell">$<%= String.format("%.2f", personal.getSALARIO()) %></td>
+                        <td class="contract-cell"><%= personal.getTIPO_CONTRATO() %></td>
+
+                        <td class="status-cell">
+                            <span class="status-badge <%= personal.isESTADO() ? "active" : "inactive" %>">
+                                <%= personal.isESTADO() ? "Activo" : "Inactivo" %>
+                            </span>
+                        </td>
+
+                        <td class="action-buttons">
+
+                            <!-- BOTÓN EDITAR -->
+                            <a class="icon-btn edit-btn"
+                               href="<%= request.getContextPath() %>/PersonalController?accion=editar&id=<%= personal.getID_USER() %>"
+                               title="Editar Personal">
+                                <span class="material-symbols-sharp">edit</span>
+                            </a>
+
+                            <!-- BOTÓN ELIMINAR (SOFT DELETE) -->
+                            <a class="icon-btn delete-btn"
+                               href="<%= request.getContextPath() %>/PersonalController?accion=eliminar&id=<%= personal.getID_USER() %>"
+                               onclick="return confirm('¿Eliminar este registro de personal?')"
+                               title="Eliminar Personal">
+                                <span class="material-symbols-sharp">delete</span>
+                            </a>
+
+                            <!-- SI ES VENDEDOR → BOTÓN VER VENTAS -->
+                            <% if (personal.isES_VENDEDOR() && personal.getCODIGO_VENDEDOR() != null) { %>
+                                <a class="icon-btn sales-btn"
+                                   href="<%= request.getContextPath() %>/PersonalController?accion=verVentas&idVendedor=<%= personal.getID_USER() %>"
+                                   title="Ver ventas">
+                                    <span class="material-symbols-sharp">trending_up</span>
+                                </a>
+                            <% } else { %>
+                                <span class="icon-btn disabled-btn" title="No es vendedor">
+                                    <span class="material-symbols-sharp">block</span>
+                                </span>
+                            <% } %>
+
+                        </td>
+                    </tr>
+
+                <% } } %>
+                </tbody>
+            </table>
+        </div>
 
     </main>
 
@@ -155,4 +185,3 @@
 
 </body>
 </html>
-

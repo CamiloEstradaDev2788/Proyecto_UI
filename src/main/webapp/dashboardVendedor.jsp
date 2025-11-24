@@ -12,7 +12,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Vendedor</title>
+
+    <!-- Material Icons Sharp -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+
+    <!-- Estilos -->
     <link rel="stylesheet" href="/assest/styles/vendedorStyle.css">
 </head>
 
@@ -30,19 +34,19 @@
         </div>
 
         <div class="sidebar">
-            <a href="#" class="active">
+            <a href="<%= request.getContextPath() %>/dashboard" class="active">
                 <span class="material-icons-sharp">dashboard</span>
                 <h3>Dashboard</h3>
             </a>
-            
-            <a href="${pageContext.request.contextPath}/nuevaVenta" class="active">
-                <span class="material-icons-sharp">dashboard</span>
-                <h3>Nueva Venta</h3>
+
+            <a href="<%= request.getContextPath() %>/InventarioVendedorController">
+                <span class="material-icons-sharp">inventory_2</span>
+                <h3>Inventario</h3>
             </a>
 
-            <a href="InventarioVendedorController">
-                <span class="material-icons-sharp">shopping_cart</span>
-                <h3>Productos</h3>
+            <a href="<%= request.getContextPath() %>/nuevaVenta">
+                <span class="material-icons-sharp">point_of_sale</span>
+                <h3>Nueva Venta</h3>
             </a>
 
             <a href="logout">
@@ -52,17 +56,14 @@
         </div>
     </aside>
 
-    <!-- ===== RIGHT ===== -->
+    <!-- MAIN -->
     <main>
-
-        <!-- Títulos -->
         <h1>Bienvenido, <%= vendedor.getNOMBRE1() %> <%= vendedor.getAPELLIDO1() %></h1>
         <small class="role">Vendedor</small>
 
         <!-- CARDS SUPERIORES -->
         <div class="insights">
 
-            <!-- Ventas del día -->
             <div class="sales">
                 <span class="material-icons-sharp icon">shopping_cart</span>
                 <div class="middle">
@@ -73,7 +74,6 @@
                 </div>
             </div>
 
-            <!-- Productos vendidos -->
             <div class="expenses">
                 <span class="material-icons-sharp icon">inventory_2</span>
                 <div class="middle">
@@ -84,7 +84,6 @@
                 </div>
             </div>
 
-            <!-- Clientes atendidos -->
             <div class="income">
                 <span class="material-icons-sharp icon">group</span>
                 <div class="middle">
@@ -114,26 +113,25 @@
                 <tbody>
                     <%
                     List<VentaRecienteModel> ventas = (List<VentaRecienteModel>) request.getAttribute("ventasRecientes");
-                     if (ventas != null) {
-                    for (VentaRecienteModel v : ventas) {
+                    if (ventas != null && !ventas.isEmpty()) {
+                        for (VentaRecienteModel v : ventas) {
                     %>
                     <tr>
-    <td><%= v.getProducto() %></td>
-    <td><%= v.getCantidad() %></td>
-    <td>$<%= v.getCantidad() * v.getPrecio()%></td>
-    <td><%= v.getFecha() %></td>
-</tr>
-
-<%
-        }
-    } else {
-%>
-<tr>
-    <td colspan="4">No hay ventas recientes.</td>
-</tr>
-<%
-    }
-%>
+                        <td><%= v.getProducto() %></td>
+                        <td><%= v.getCantidad() %></td>
+                        <td>$<%= v.getCantidad() * v.getPrecio() %></td>
+                        <td><%= v.getFecha() %></td>
+                    </tr>
+                    <%
+                        }
+                    } else {
+                    %>
+                    <tr>
+                        <td colspan="4">No hay ventas recientes.</td>
+                    </tr>
+                    <%
+                    }
+                    %>
                 </tbody>
             </table>
         </div>
