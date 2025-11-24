@@ -4,6 +4,7 @@ import com.bodegapp.personal.dao.PersonalDAO;
 import com.bodegapp.personal.dao.VentaVendedorDAO;
 import com.bodegapp.personal.model.PersonalModel;
 import com.bodegapp.personal.model.VentaVendedorModel;
+import java.util.Comparator;
 
 import java.util.List;
 
@@ -37,4 +38,12 @@ public class PersonalService {
     public boolean eliminarPersonal(int idUser) {
         return personalDAO.eliminar(idUser);
     }
+    
+    public List<PersonalModel> listarMenosVentas(int idEmpresa) {
+        return personalDAO.listarMenosVentas(idEmpresa);
+    }
+
+
+
+
 }

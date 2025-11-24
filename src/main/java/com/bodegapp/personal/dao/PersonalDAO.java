@@ -285,5 +285,72 @@ public class PersonalDAO {
         return false;
     }
 }
+    
+    public List<PersonalModel> listarSoloVendedores() {
+    List<PersonalModel> lista = new ArrayList<>();
+
+    String sql = "SELECT ID_USER, NOMBRE1, APELLIDO1, CODIGO_VENDEDOR "
+               + "FROM personal WHERE ES_VENDEDOR = 1";
+
+    try (Connection con = ConexionBD.getConexion();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            PersonalModel p = new PersonalModel();
+            p.setID_USER(rs.getInt("ID_USER"));
+            p.setNOMBRE1(rs.getString("NOMBRE1"));
+            p.setAPELLIDO1(rs.getString("APELLIDO1"));
+            p.setCODIGO_VENDEDOR(rs.getString("CODIGO_VENDEDOR"));
+            lista.add(p);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return lista;
+}
+
+    public List<PersonalModel> listarMenosVentas(int idEmpresa) {
+    List<PersonalModel> lista = new ArrayList<>();
+
+    String sql = "SELECT v.CODIGO_VENDEDOR, " +
+                 "       u.NOMBRE1, u.NOMBRE2, u.APELLIDO1, u.APELLIDO2, " +
+                 "       COALESCE(SUM(df.PRECIO_VENTA * df.CANTIDAD_VENTA), 0) AS TOTAL_VENTAS " +
+                 "FROM vendedores v " +
+                 "INNER JOIN usuarios u ON u.ID_USER = v.ID_USER " +
+                 "LEFT JOIN factura f ON f.CODIGO_VENDEDOR = v.CODIGO_VENDEDOR " +
+                 "LEFT JOIN detalle_factura df ON df.NUMERO_FACTURA = f.NUMERO_FACTURA " +
+                 "WHERE u.ID_EMPRESA = ? AND u.estado = 1 " +
+                 "GROUP BY v.CODIGO_VENDEDOR, u.NOMBRE1, u.NOMBRE2, u.APELLIDO1, u.APELLIDO2 " +
+                 "ORDER BY TOTAL_VENTAS ASC " +
+                 "LIMIT 3";
+
+    try (Connection con = ConexionBD.getConexion();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setInt(1, idEmpresa);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            PersonalModel p = new PersonalModel();
+            p.setCODIGO_VENDEDOR(rs.getString("CODIGO_VENDEDOR"));
+            p.setNOMBRE1(rs.getString("NOMBRE1"));
+            p.setNOMBRE2(rs.getString("NOMBRE2"));
+            p.setAPELLIDO1(rs.getString("APELLIDO1"));
+            p.setAPELLIDO2(rs.getString("APELLIDO2"));
+            p.setTOTAL_VENTAS(rs.getDouble("TOTAL_VENTAS"));
+            lista.add(p);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return lista;
+}
+
+
 
 }

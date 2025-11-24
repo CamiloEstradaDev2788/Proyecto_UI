@@ -27,6 +27,12 @@ public class PersonalModel {
     private String CODIGO_DISTRITO;
     private Date FECHA_INGRESO_VENDEDOR;
     private String TIPO_VENDEDOR;
+    
+    private double TOTAL_VENTAS;
+
+    public double getTOTAL_VENTAS() { return TOTAL_VENTAS; }
+    public void setTOTAL_VENTAS(double TOTAL_VENTAS) { this.TOTAL_VENTAS = TOTAL_VENTAS; }
+
 
     public PersonalModel() {}
 

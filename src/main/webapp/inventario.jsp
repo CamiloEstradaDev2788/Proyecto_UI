@@ -94,48 +94,82 @@
                     </tr>
                 </thead>
                 <tbody>
-                <% if (lista == null || lista.isEmpty()) { %>
-                    <tr>
-                        <td colspan="9" class="no-records">
-                            <% if (!criterioBusqueda.isEmpty()) { %>
-                                No se encontraron productos que coincidan con "<%= criterioBusqueda %>"
-                            <% } else { %>
-                                No hay registros...
-                            <% } %>
-                        </td>
-                    </tr>
-                <% } else {
-                       for (InventarioModel prod : lista) { %>
-                    <tr>
-                        <td><%= prod.getCODIGO_PRODUCTO()%></td>
-                        <td><%= prod.getDESCRIPCION_PRODUCTO()%></td>
-                        <td><%= prod.getSACO_PRODUCTO()%></td>
-                        <td>$<%= String.format("%.2f", prod.getPRECIO_PRODUCTO()) %></td>
-                        <td><%= prod.getMINIMO_STOCK()%></td>
-                        <td><%= prod.getUNIDAD_PRODUCTO()%></td>
-                        <td><%= prod.getLINEA_PRODUCTO()%></td>
-                        <td>
-                            <% 
-                                String proveedores = prod.getNOMBRE_PROVEEDOR() != null ? prod.getNOMBRE_PROVEEDOR() : "Sin proveedor";
-                                for (String prov : proveedores.split(",")) {
-                            %>
-                                <span class="supplier-badge"><%= prov.trim() %></span>
-                            <% } %>
-                        </td>
-                        <td class="action-buttons">
-                            <a class="icon-btn edit-btn" href="InventarioController?accion=editar&codigo=<%= prod.getCODIGO_PRODUCTO() %>" title="Editar producto">
-                                <span class="material-symbols-sharp">edit</span>
-                            </a>
-                            <a class="icon-btn delete-btn"
-                            href="${pageContext.request.contextPath}/InventarioController?accion=eliminar&codigo=<%= prod.getCODIGO_PRODUCTO() %>"
-                            onclick="return confirm('¿Eliminar este producto?')"
-                            title="Eliminar producto">
-                             <span class="material-symbols-sharp">delete</span>
-                         </a>
-                        </td>
-                    </tr>
-                <% } } %>
-                </tbody>
+                    <% if (lista == null || lista.isEmpty()) { %>
+                        <tr>
+                            <td colspan="9" class="no-records">
+                                <% if (!criterioBusqueda.isEmpty()) { %>
+                                    No se encontraron productos que coincidan con "<%= criterioBusqueda %>"
+                                <% } else { %>
+                                    No hay registros...
+                                <% } %>
+                            </td>
+                        </tr>
+
+                    <% } else {
+                           for (InventarioModel prod : lista) { %>
+
+                        <tr>
+                            <!-- CÓDIGO -->
+                            <td><%= prod.getCODIGO_PRODUCTO() %></td>
+
+                            <!-- DESCRIPCIÓN -->
+                            <td><%= prod.getDESCRIPCION_PRODUCTO() %></td>
+
+                            <!-- STOCK con indicador verde/rojo -->
+                            <td>
+                                <% if (prod.getSACO_PRODUCTO() > 0) { %>
+                                    <span style="color: green; font-weight: bold;">
+                                        <%= prod.getSACO_PRODUCTO() %> — Stock disponible
+                                    </span>
+                                <% } else { %>
+                                    <span style="color: red; font-weight: bold;">
+                                        <%= prod.getSACO_PRODUCTO() %> — Sin stock
+                                    </span>
+                                <% } %>
+                            </td>
+
+                            <!-- PRECIO -->
+                            <td>$<%= String.format("%.2f", prod.getPRECIO_PRODUCTO()) %></td>
+
+                            <!-- STOCK MÍNIMO -->
+                            <td><%= prod.getMINIMO_STOCK() %></td>
+
+                            <!-- UNIDAD -->
+                            <td><%= prod.getUNIDAD_PRODUCTO() %></td>
+
+                            <!-- LÍNEA -->
+                            <td><%= prod.getLINEA_PRODUCTO() %></td>
+
+                            <!-- PROVEEDORES -->
+                            <td>
+                                <%
+                                    String proveedores = prod.getNOMBRE_PROVEEDOR() != null ? prod.getNOMBRE_PROVEEDOR() : "Sin proveedor";
+                                    for (String prov : proveedores.split(",")) {
+                                %>
+                                    <span class="supplier-badge"><%= prov.trim() %></span>
+                                <% } %>
+                            </td>
+
+                            <!-- ACCIONES -->
+                            <td class="action-buttons">
+                                <a class="icon-btn edit-btn"
+                                   href="InventarioController?accion=editar&codigo=<%= prod.getCODIGO_PRODUCTO() %>"
+                                   title="Editar producto">
+                                    <span class="material-symbols-sharp">edit</span>
+                                </a>
+
+                                <a class="icon-btn delete-btn"
+                                   href="<%= request.getContextPath() %>/InventarioController?accion=eliminar&codigo=<%= prod.getCODIGO_PRODUCTO() %>"
+                                   onclick="return confirm('¿Eliminar este producto?')"
+                                   title="Eliminar producto">
+                                    <span class="material-symbols-sharp">delete</span>
+                                </a>
+                            </td>
+                        </tr>
+
+                    <%   } // fin for
+                       } // fin else %>
+                    </tbody>
             </table>
         </div>
     </main>

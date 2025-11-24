@@ -19,55 +19,65 @@ public class PersonalController extends HttpServlet {
     private PersonalDAO dao = new PersonalDAO();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
 
-        HttpSession sesion = request.getSession(false);
-        if (sesion == null || sesion.getAttribute("usuario") == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-        UsuarioModel usuario = (UsuarioModel) sesion.getAttribute("usuario");
-
-        String accion = request.getParameter("accion");
-        String id = request.getParameter("id");
-        String idVendedor = request.getParameter("idVendedor");
-
-        switch (accion != null ? accion : "") {
-            case "verVentas":
-                verVentas(request, response, idVendedor);
-                return;
-
-            case "agregar":
-                cargarReferencias(request);
-                request.getRequestDispatcher("agregarPersonal.jsp").forward(request, response);
-                return;
-
-            case "editar":
-                if (id != null) {
-                    PersonalModel p = service.obtenerPersonalPorId(Integer.parseInt(id));
-                    cargarReferencias(request);
-                    request.setAttribute("personal", p);
-                    request.getRequestDispatcher("editarPersonal.jsp").forward(request, response);
-                    return;
-                }
-                break;
-
-            case "eliminar":
-                if (id != null) {
-                    service.eliminarPersonal(Integer.parseInt(id));
-                    response.sendRedirect("PersonalController");
-                    return;
-                }
-                break;
-
-            default:
-                // listar por defecto
-                List<PersonalModel> lista = service.listarPersonal(usuario.getID_EMPRESA());
-                request.setAttribute("listaPersonal", lista);
-                request.getRequestDispatcher("personal.jsp").forward(request, response);
-        }
+    HttpSession sesion = request.getSession(false);
+    if (sesion == null || sesion.getAttribute("usuario") == null) {
+        response.sendRedirect("login.jsp");
+        return;
     }
+
+    UsuarioModel usuario = (UsuarioModel) sesion.getAttribute("usuario");
+
+    String accion = request.getParameter("accion");
+    String id = request.getParameter("id");
+    String idVendedor = request.getParameter("idVendedor");
+
+    switch (accion != null ? accion : "") {
+
+        case "verVentas":
+            verVentas(request, response, idVendedor);
+            return;
+
+        case "agregar":
+            cargarReferencias(request);
+            request.getRequestDispatcher("agregarPersonal.jsp").forward(request, response);
+            return;
+
+        case "editar":
+            if (id != null) {
+                PersonalModel p = service.obtenerPersonalPorId(Integer.parseInt(id));
+                cargarReferencias(request);
+                request.setAttribute("personal", p);
+                request.getRequestDispatcher("editarPersonal.jsp").forward(request, response);
+                return;
+            }
+            break;
+
+        case "eliminar":
+            if (id != null) {
+                service.eliminarPersonal(Integer.parseInt(id));
+                response.sendRedirect("PersonalController");
+                return;
+            }
+            break;
+    }
+
+    // ===========================================
+    // DEFAULT LISTAR PERSONAL Y VENDEDORES CON MENOS VENTAS
+    // ===========================================
+    List<PersonalModel> lista = service.listarPersonal(usuario.getID_EMPRESA());
+    request.setAttribute("listaPersonal", lista);
+
+    // NUEVO: traer 3 vendedores con menos ventas
+    List<PersonalModel> menosVentas = service.listarMenosVentas(usuario.getID_EMPRESA());
+    request.setAttribute("menosVentas", menosVentas);
+
+    request.getRequestDispatcher("personal.jsp").forward(request, response);
+}
+
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -77,6 +87,7 @@ public class PersonalController extends HttpServlet {
 
         if ("insertar".equals(accion)) {
             try {
+
                 HttpSession sesion = request.getSession(false);
                 UsuarioModel usuario = (UsuarioModel) sesion.getAttribute("usuario");
 
@@ -94,7 +105,7 @@ public class PersonalController extends HttpServlet {
                 p.setTIPO_CONTRATO(request.getParameter("tipo_contrato"));
                 p.setESTADO(Boolean.parseBoolean(request.getParameter("estado")));
 
-                // Leer el hidden input es_vendedor
+                // VENDEDOR
                 p.setES_VENDEDOR(Boolean.parseBoolean(request.getParameter("es_vendedor")));
                 p.setCODIGO_VENDEDOR(request.getParameter("codigo_vendedor"));
                 p.setCODIGO_DISTRITO(request.getParameter("codigo_distrito"));
@@ -120,28 +131,48 @@ public class PersonalController extends HttpServlet {
         }
     }
 
-    // ==================== Métodos privados ====================
+
+    // =====================================================================
+    // ========================= MÉTODOS PRIVADOS ===========================
+    // =====================================================================
 
     private void verVentas(HttpServletRequest request, HttpServletResponse response, String idVendedor)
             throws ServletException, IOException {
-        if (idVendedor != null) {
-            try {
-                PersonalModel vendedor = service.obtenerPersonalPorId(Integer.parseInt(idVendedor));
-                if (vendedor != null && vendedor.isES_VENDEDOR()) {
-                    List<VentaVendedorModel> ventas = service.obtenerVentasVendedor(vendedor.getCODIGO_VENDEDOR());
-                    double totalVentas = service.obtenerTotalVentasVendedor(vendedor.getCODIGO_VENDEDOR());
-                    request.setAttribute("vendedor", vendedor);
-                    request.setAttribute("ventas", ventas);
-                    request.setAttribute("totalVentas", totalVentas);
-                    request.getRequestDispatcher("ventasVendedor.jsp").forward(request, response);
-                } else {
-                    response.sendRedirect("PersonalController");
-                }
-            } catch (NumberFormatException e) {
+
+        if (idVendedor == null) {
+            response.sendRedirect("PersonalController");
+            return;
+        }
+
+        try {
+            int id = Integer.parseInt(idVendedor);
+
+            PersonalModel vendedor = service.obtenerPersonalPorId(id);
+
+            if (vendedor == null || !vendedor.isES_VENDEDOR()) {
                 response.sendRedirect("PersonalController");
+                return;
             }
+
+            // === CONSULTA DE VENTAS CALCULADAS ===
+            List<VentaVendedorModel> ventas =
+                    service.obtenerVentasVendedor(vendedor.getCODIGO_VENDEDOR());
+
+            double totalVentas =
+                    service.obtenerTotalVentasVendedor(vendedor.getCODIGO_VENDEDOR());
+
+            request.setAttribute("vendedor", vendedor);
+            request.setAttribute("ventas", ventas);
+            request.setAttribute("totalVentas", totalVentas);
+
+            request.getRequestDispatcher("ventasVendedor.jsp").forward(request, response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("PersonalController");
         }
     }
+
 
     private void cargarReferencias(HttpServletRequest request) {
         try {
@@ -149,11 +180,11 @@ public class PersonalController extends HttpServlet {
             UsuarioModel usuario = (UsuarioModel) session.getAttribute("usuario");
             int idEmpresa = usuario.getID_EMPRESA();
 
-            // roles
-            request.setAttribute("roles", new com.bodegapp.roles.dao.RolDAO().listar(idEmpresa));
+            request.setAttribute("roles",
+                    new com.bodegapp.roles.dao.RolDAO().listar(idEmpresa));
 
-            // distritos
-            request.setAttribute("distritos", new com.bodegapp.distrito.dao.DistritoDAO().listarDistritos());
+            request.setAttribute("distritos",
+                    new com.bodegapp.distrito.dao.DistritoDAO().listarDistritos());
 
         } catch (Exception e) {
             e.printStackTrace();
