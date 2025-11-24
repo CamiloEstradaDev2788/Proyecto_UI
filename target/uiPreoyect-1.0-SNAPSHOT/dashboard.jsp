@@ -65,6 +65,10 @@
                 <span class="material-symbols-sharp">location_city</span>
                 <h3>Distritos</h3>
             </a>
+                <a href="<%= request.getContextPath() %>/auditoria">
+                <span class="material-symbols-sharp">location_city</span>
+                <h3>auditoria</h3>
+            </a>
             
                 <a href="logout">
                     <span class="material-symbols-sharp">logout</span>

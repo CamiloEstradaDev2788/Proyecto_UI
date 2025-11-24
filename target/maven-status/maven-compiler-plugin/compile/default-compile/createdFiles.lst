@@ -13,6 +13,7 @@ com\bodegapp\login\controller\LoginController.class
 com\bodegapp\clientes\dao\ClienteDAO.class
 com\bodegapp\distrito\controller\DistritoController.class
 com\bodegapp\usuarios\model\UsuarioModel.class
+com\bodegapp\auditoria\controller\AuditoriaController.class
 com\bodegapp\roles\controller\RolController.class
 com\bodegapp\dashboard\controller\DashboardController.class
 com\bodegapp\dashboard\dao\AlertaDTO.class
@@ -31,6 +32,7 @@ com\bodegapp\roles\service\RolService.class
 com\bodegapp\vendedor\dao\VendedorDAO.class
 com\bodegapp\personal\dao\PersonalDAO.class
 com\bodegapp\login\model\LoginModel.class
+com\bodegapp\auditoria\dao\AuditoriaDAO.class
 com\bodegapp\vendedor\controller\VendedorController.class
 com\bodegapp\roles\model\RolModel.class
 com\bodegapp\inventario\model\ProductoModel.class
@@ -42,6 +44,7 @@ com\bodegapp\inventario\controller\InventarioController.class
 com\bodegapp\login\service\LoginService.class
 com\bodegapp\clientes\model\ClienteModel.class
 com\bodegapp\personal\model\VentaVendedorModel.class
+com\bodegapp\auditoria\model\AuditoriaModel.class
 com\bodegapp\vendedor\dao\NuevaVentaDAO.class
 com\bodegapp\empresa\model\EmpresaModel.class
 com\bodegapp\personal\controller\PersonalController.class
